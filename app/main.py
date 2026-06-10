@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from app.rag_pipeline import retrieve_documents
+from app.generator import generate_answer
 from app.logger import log_rag_request
 
 
@@ -25,11 +26,13 @@ def query_rag(request: QueryRequest):
     start_time = time.time()
 
     retrieved_contexts = retrieve_documents(request.query, request.top_k)
+    answer = generate_answer(request.query, retrieved_contexts)
 
     latency_ms = round((time.time() - start_time) * 1000, 2)
 
     response = {
         "query": request.query,
+        "answer": answer,
         "retrieved_contexts": retrieved_contexts,
         "latency_ms": latency_ms,
         "note": "Lower distance means higher semantic similarity.",

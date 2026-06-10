@@ -29,17 +29,22 @@ def read_markdown_files() -> List[Dict]:
 
 
 def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+
     chunks = []
-    start = 0
+    current_chunk = ""
 
-    while start < len(text):
-        end = start + chunk_size
-        chunk = text[start:end].strip()
+    for paragraph in paragraphs:
+        if len(current_chunk) + len(paragraph) <= chunk_size:
+            current_chunk += "\n\n" + paragraph if current_chunk else paragraph
+        else:
+            if current_chunk:
+                chunks.append(current_chunk)
 
-        if chunk:
-            chunks.append(chunk)
+            current_chunk = paragraph
 
-        start += chunk_size - overlap
+    if current_chunk:
+        chunks.append(current_chunk)
 
     return chunks
 
