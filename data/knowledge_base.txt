@@ -1,0 +1,11 @@
+Embedding drift occurs when the statistical properties of embeddings change over time.
+
+Retrieval quality measures how relevant retrieved documents are for a query.
+
+Hallucination occurs when a language model generates information unsupported by retrieved evidence.
+
+Prometheus is commonly used for monitoring machine learning systems.
+
+Grafana is used to visualize metrics and dashboards.
+
+MLflow is used for experiment tracking and model lifecycle management.
