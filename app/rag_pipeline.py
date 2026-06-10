@@ -1,18 +1,22 @@
-from pathlib import Path
+from sentence_transformers import SentenceTransformer
+import chromadb
 
 
-def retrieve_documents(query: str):
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-    kb_path = Path("data/knowledge_base.txt")
+client = chromadb.PersistentClient(path="data/vector_db")
+collection = client.get_or_create_collection(name="knowledge_base")
 
-    with open(kb_path, "r", encoding="utf-8") as f:
-        documents = f.read().split("\n")
 
-    results = []
+def retrieve_documents(query: str, top_k: int = 3):
+    query_embedding = model.encode([query]).tolist()[0]
 
-    for doc in documents:
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+    )
 
-        if query.lower() in doc.lower():
-            results.append(doc)
+    documents = results["documents"][0]
+    distances = results["distances"][0]
 
-    return results
+    return documents, distances
