@@ -24,16 +24,15 @@ def health_check():
 def query_rag(request: QueryRequest):
     start_time = time.time()
 
-    docs, distances = retrieve_documents(request.query, request.top_k)
+    retrieved_contexts = retrieve_documents(request.query, request.top_k)
 
     latency_ms = round((time.time() - start_time) * 1000, 2)
 
     response = {
         "query": request.query,
-        "retrieved_docs": docs,
-        "retrieval_distances": distances,
+        "retrieved_contexts": retrieved_contexts,
         "latency_ms": latency_ms,
-        "note": "Lower distance means higher semantic similarity."
+        "note": "Lower distance means higher semantic similarity.",
     }
 
     log_rag_request(response.copy())

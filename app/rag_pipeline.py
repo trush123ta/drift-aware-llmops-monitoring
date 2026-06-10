@@ -14,9 +14,23 @@ def retrieve_documents(query: str, top_k: int = 3):
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=top_k,
+        include=["documents", "distances", "metadatas"],
     )
 
     documents = results["documents"][0]
     distances = results["distances"][0]
+    metadatas = results["metadatas"][0]
 
-    return documents, distances
+    retrieved_contexts = []
+
+    for doc, distance, metadata in zip(documents, distances, metadatas):
+        retrieved_contexts.append(
+            {
+                "text": doc,
+                "source": metadata.get("source"),
+                "chunk_index": metadata.get("chunk_index"),
+                "distance": distance,
+            }
+        )
+
+    return retrieved_contexts
