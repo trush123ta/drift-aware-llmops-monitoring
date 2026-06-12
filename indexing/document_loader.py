@@ -1,17 +1,14 @@
-from pathlib import Path
 from typing import Dict, List
 
 import fitz  # PyMuPDF
 
-
-RAW_DOCS_DIR = Path("data/raw_docs")
-RAW_PDFS_DIR = Path("data/raw_pdfs")
+from app.core.config import settings
 
 
 def load_markdown_documents() -> List[Dict]:
     documents = []
 
-    for file_path in RAW_DOCS_DIR.glob("*.md"):
+    for file_path in settings.RAW_DOCS_DIR.glob("*.md"):
         text = file_path.read_text(encoding="utf-8")
 
         documents.append(
@@ -29,7 +26,7 @@ def load_markdown_documents() -> List[Dict]:
 def load_pdf_documents() -> List[Dict]:
     documents = []
 
-    for file_path in RAW_PDFS_DIR.glob("*.pdf"):
+    for file_path in settings.RAW_PDFS_DIR.glob("*.pdf"):
         pdf = fitz.open(file_path)
 
         for page_index, page in enumerate(pdf):

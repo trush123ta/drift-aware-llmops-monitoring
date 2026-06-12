@@ -1,0 +1,370 @@
+[
+  {
+    "chunk_id": "embedding_drift.md_pna_c0",
+    "source": "embedding_drift.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 0,
+    "text_preview": "# Embedding Drift Embedding drift occurs when the distribution of query embeddings or document embeddings changes over time. In a production RAG system, embedding drift can happen when users begin asking different types of questions, when the document corpus changes, or when the embedding model is u"
+  },
+  {
+    "chunk_id": "embedding_drift.md_pna_c1",
+    "source": "embedding_drift.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 1,
+    "text_preview": "A drift-aware system should compare current query embeddings against a baseline window and trigger alerts when the distance exceeds a configured threshold."
+  },
+  {
+    "chunk_id": "llmops_monitoring.md_pna_c0",
+    "source": "llmops_monitoring.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 0,
+    "text_preview": "# LLMOps Monitoring LLMOps monitoring is the practice of observing, measuring, and maintaining large language model applications after deployment. In Retrieval-Augmented Generation systems, monitoring is especially important because system quality depends on multiple components: the user query, embe"
+  },
+  {
+    "chunk_id": "llmops_monitoring.md_pna_c1",
+    "source": "llmops_monitoring.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 1,
+    "text_preview": "A monitoring pipeline should log every request with the query, retrieved documents, retrieval scores, generated answer, response time, and evaluation result. When degradation is detected, the system can trigger alerts, re-index the vector database, update documents, or run a new evaluation benchmark"
+  },
+  {
+    "chunk_id": "retrieval_quality.md_pna_c0",
+    "source": "retrieval_quality.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 0,
+    "text_preview": "# Retrieval Quality Monitoring Retrieval quality monitoring checks whether the documents retrieved by a RAG system are relevant to the user query. Poor retrieval quality is one of the main causes of hallucination in RAG applications. Useful retrieval metrics include top-k accuracy, mean reciprocal r"
+  },
+  {
+    "chunk_id": "retrieval_quality.md_pna_c1",
+    "source": "retrieval_quality.md",
+    "source_type": "markdown",
+    "page": null,
+    "chunk_index": 1,
+    "text_preview": "Retrieval degradation can be caused by outdated indexes, poor chunking, embedding drift, missing documents, noisy documents, or changes in user behavior."
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p1_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 1,
+    "chunk_index": 0,
+    "text_preview": "RAGCHECKER: A Fine-grained Framework for Diagnosing Retrieval-Augmented Generation Dongyu Ru1\u2217 Lin Qiu1\u2217 Xiangkun Hu1\u2217 Tianhang Zhang1\u2217 Peng Shi1\u2217 Shuaichen Chang1\u2217 Cheng Jiayang1\u2020 Cunxiang Wang1\u2020 Shichao Sun2 Huanyu Li2 Zizhao Zhang1\u2020 Binjie Wang1\u2020 Jiarong Jiang1 Tong He1 Zhiguo Wang1 Pengfei Liu2 "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p2_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 2,
+    "chunk_index": 0,
+    "text_preview": "of existing metrics for RAG remains under-explored. Effective evaluation metrics must not only accurately reflect system performance but also align with human judgments to ensure their utility in real-world scenarios. To overcome these challenges, we introduce RAGCHECKER, an innovative evaluation fr"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p4_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 4,
+    "chunk_index": 0,
+    "text_preview": "3.1 Inputs to RAGCHECKER We prepare each sample in our benchmark dataset in the format of a tuple \u27e8q, D, gt\u27e9representing query, documents, and ground-truth answer, where query is the input question to a RAG system, documents form the database providing possible context and are processed into chunks "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p5_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 5,
+    "chunk_index": 0,
+    "text_preview": "3.3.1 Overall Metrics To assess the overall response quality of a RAG system from a user\u2019s perspective, we can compute the precision and recall at claim level for each model generated response against its paired ground-truth answer. Specifically, we first extract claims from a model response m and a"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p7_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 7,
+    "chunk_index": 0,
+    "text_preview": "Table 1: Statistics of the RAG benchmark. This benchmark is repurposed from public datasets across 10 domains, containing 4,162 questions. For the domains of Finance, Lifestyle, Recreation, Technology, Science and Novel, the short answers are extended to long-form answers with GPT-4. Dataset Domain "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p8_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 8,
+    "chunk_index": 0,
+    "text_preview": "of Appendix C. As an upper bound, the human correlations at the bottom show that there is still a clear gap between model predictions and human annotators. 4.3 Main Results We present the averaged evaluation results for 8 RAG systems across 10 diverse domain datasets in Tab. 3. Additional results fo"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p9_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 9,
+    "chunk_index": 0,
+    "text_preview": "chunk is trusted as a whole, while an irrelevant one only has minimal impact. This subtle yet significant distinction supports and explains the importance of the quality and specification of the database for a RAG system. Open-Source Models are Worse at Distinguishing Accurate Information from Noise"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p14_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 14,
+    "chunk_index": 0,
+    "text_preview": "A Details for Benchmark Curation In this section, we introduce the benchmark datasets and the curation process for RAG evaluation. This benchmark datasets are derived from existing open-domain question answering (ODQA) datasets, including RobustQA [9], KIWI [51], ClapNQ [34], and NovelQA [47]. Howev"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p15_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 15,
+    "chunk_index": 0,
+    "text_preview": "Here is a question and human annotated short answers, the short answers are extracted from a passage, you should help me to convert the short answers to a long-form answer based on the provided passage. There could be more than one annotation, so you should identify the best answers and merge them. "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p16_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 16,
+    "chunk_index": 0,
+    "text_preview": "{irr-chunkj}. Specifically, chunkj is considered relevant if it contains at least one claim c(gt) i such that c(gt) i \u2208chunkj. In accordance with the definitions provided in Section 3.3, we compute each metric using the following formulations: B.1 Overall Metrics Precision = |{c(m) i | c(m) i \u2208gt}| "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p17_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 17,
+    "chunk_index": 0,
+    "text_preview": "Figure 3: The human annotation interface and instructions of the meta evaluation dataset. In the UI of the annotation tool, each response is shown with critiques generated by GPT-4 and we ask the annotators to refer to the content of the response and the critiques for labeling. The critiques are gen"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p18_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 18,
+    "chunk_index": 0,
+    "text_preview": "Table 4: Summary of the metrics included in the meta evaluation. Baseline Metric Description TruLens Groundedness Assesses the overlap between each statement in the response and the provided context using an LLM. Answer Relevance Prompts an LLM to give a relevance score between the response and ques"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p19_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 19,
+    "chunk_index": 0,
+    "text_preview": "Figure 4: Comparison of prediction score distribution between RAGCHECKER and RAGAS Answer Similarity. Each point in the plot represents an instance in the meta evaluation dataset, where the x-axis is the human preference label under corresponding aspect and y-axis is the prediction score of RAGCHECK"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p20_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 20,
+    "chunk_index": 0,
+    "text_preview": "Please answer the given question based on the context. <context> <content> {chunk_1} </content> <content> {chunk_2} </content> ... <content> {chunk_k} </content> </context> Question: {question} Please answer the question and tag your answer with <answer></answer>. Figure 5: The default prompt used f"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p21_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 21,
+    "chunk_index": 0,
+    "text_preview": "CR (72.6~91.7) CP (63.3~82.4) CU (62.8~81.8) Faith. (80.9~100) 100 - Hallu. (80.9~100) 100 - SK (80.9~100) 100 - NS(I) (70.8~89.9) 100 - NS(II) (80.9~100) CR (51.0~86.3) CP (47.4~82.6) CU (45.6~80.9) Faith. (64.7~100) 100 - Hallu. (64.7~100) 100 - SK (64.7~100) 100 - NS(I) (53.7~89.0) 100 - NS(II) ("
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p22_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 22,
+    "chunk_index": 0,
+    "text_preview": "CR (82.1~93.6) CP (58.7~70.2) CU (64.3~75.8) Faith. (88.4~99.9) 100 - Hallu. (88.5~100) 100 - SK (88.5~100) 100 - NS(I) (73.6~85.1) 100 - NS(II) (88.5~100) CR (61.4~88.6) CP (44.3~71.5) CU (47.8~75.0) Faith. (72.8~100) 100 - Hallu. (72.8~100) 100 - SK (72.8~100) 100 - NS(I) (57.0~84.2) 100 - NS(II) "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p23_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 23,
+    "chunk_index": 0,
+    "text_preview": "CU (69.0~76.9) Faith. (90.5~98.4) 100 - Hallu. (92.1~100) 100 - SK (92.1~100) 100 - NS(I) (74.6~82.5) 100 - NS(II) (92.1~100) CU (57.5~72.1) Faith. (79.9~94.4) 100 - Hallu. (82.6~97.1) 100 - SK (85.5~100) 100 - NS(I) (60.6~75.1) 100 - NS(II) (85.5~100) CU (45.3~57.0) Faith. (88.2~100) 100 - Hallu. ("
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p24_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 24,
+    "chunk_index": 0,
+    "text_preview": "You are an accurate and reliable AI assistant capable of answering questions using external documents. Always be faithful to the provided documents and leverage relevant, accurate information from them as much as possible. Be aware that external documents might contain noisy or factually incorrect d"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p25_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 25,
+    "chunk_index": 0,
+    "text_preview": "CR (86.3~93.4) CP (61.5~68.6) CU (66.6~73.7) Faith. (90.9~98.0) 100 - Hallu. (92.9~100) 100 - SK (92.9~100) 100 - NS(I) (75.8~83.0) 100 - NS(II) (92.9~100) CR (69.4~86.8) CP (51.6~69.0) CU (51.6~69.1) Faith. (78.9~96.3) 100 - Hallu. (81.6~99.1) 100 - SK (82.6~100) 100 - NS(I) (60.1~77.5) 100 - NS(II"
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p26_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 26,
+    "chunk_index": 0,
+    "text_preview": "Table 11: Evaluation results for different RAG systems on RobustQA - Lifestyle dataset RAG systems Overall Retriever Generator #Claim Prec.\u2191 Rec.\u2191 F1\u2191 CR\u2191 CP\u2191 CU\u2191 NS(I)\u2193 NS(II)\u2193 Hallu.\u2193 SK\u2193 Faith.\u2191 BM25_GPT-4 63.3 50.5 53.0 70.2 47.0 64.8 24.0 2.7 10.0 6.0 84.0 12 BM25_Llama3-8b 49.7 44.8 43.8 70.2 "
+  },
+  {
+    "chunk_id": "ragas_evaluation.pdf_p27_c0",
+    "source": "ragas_evaluation.pdf",
+    "source_type": "pdf",
+    "page": 27,
+    "chunk_index": 0,
+    "text_preview": "Table 16: Performance of RefChecker on the RefChecker benchmark using Llama 3 70B Instruct as both the extractor and checker. We compare the results with the best performed purely open-sourced combinations reported in the RefChecker paper. Accuracy Fact. F1 Non-Fact. F1 Pearson Spearman Zero Context"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p1_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 1,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey Hao Yu1,2, Aoran Gan3, Kai Zhang3, Shiwei Tong1\u2020, Qi Liu3, and Zhaofeng Liu1 1 Tencent Company 2 McGill University 3 State Key Laboratory of Cognitive Intelligence, University of Science and Technology of China hao.yu2@mail.mcgill.ca gar@mail.us"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p2_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 2,
+    "chunk_index": 0,
+    "text_preview": "2 Hao Yu, Aoran Gan, Kai Zhang, Shiwei Tong\u2020, Qi Liu, and Zhaofeng Liu Numerous studies of RAG systems have emerged from various perspectives since the advent of Large Language Models (LLMs) [55,45,59,42,41,69,16]. The RAG system comprises two primary components: Retrieval and Generation. The retrie"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p3_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 3,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 3 by the external dynamic database and the various downstream tasks, such as content creation or open domain question answering [16,70]. These challenges necessitate the development of comprehensive evaluation metrics that can effectively captur"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p4_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 4,
+    "chunk_index": 0,
+    "text_preview": "4 Hao Yu, Aoran Gan, Kai Zhang, Shiwei Tong\u2020, Qi Liu, and Zhaofeng Liu Generation The generation component, powered by LLMs, produces coherent and contextually appropriate responses based on the retrieved content. The challenge here lies in evaluating the faithfulness and accuracy of the generated c"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p5_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 5,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 5 Fig. 2: The Target modular of the Auepora. 3.1 Evaluation Target (What to Evaluate?) The combination of EOs and GTs in the RAG system can generate all possible targets, which is the fundamental concept of the Auepora (as shown in Figure 1). On"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p9_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 9,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 9 In summary, the creation and selection of datasets are crucial for evaluating RAG systems. Datasets tailored for specific metrics or tasks improve evaluation accuracy and guide the development of adaptable RAG systems for real-world informatio"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p10_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 10,
+    "chunk_index": 0,
+    "text_preview": "10 Hao Yu, Aoran Gan, Kai Zhang, Shiwei Tong\u2020, Qi Liu, and Zhaofeng Liu - Recall at k (Recall@k) is the fraction of relevant instances that have been retrieved over the total amount of relevant cases, considering only the top k results. Recall@k = |RD \u2229Topkd| |RD| where RD is the relevant documents,"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p11_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 11,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 11 as arbiters mark a significant progression towards automated and context-responsive evaluation frameworks, enriching the evaluation landscape with minimal reliance on reference comparisons. - ROUGE Recall-Oriented Understudy for Gisting Evalu"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p13_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 13,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 13 When it comes to metrics, the use of LLMs as automatic evaluative judges signifies a burgeoning trend, promising versatility and depth in generative outputs with reasoning on a large scale compared to human evaluation. However, using \u201cLLMs as"
+  },
+  {
+    "chunk_id": "rag_evaluation_survey.pdf_p21_c0",
+    "source": "rag_evaluation_survey.pdf",
+    "source_type": "pdf",
+    "page": 21,
+    "chunk_index": 0,
+    "text_preview": "Evaluation of Retrieval-Augmented Generation: A Survey 21 Search This step is responsible for retrieving relevant documents based on a given query. Queries are submitted using the respective API to retrieve relevant documents for web search engine retrieval. For local resources, the query component "
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p1_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 1,
+    "chunk_index": 0,
+    "text_preview": "1 Retrieval-Augmented Generation for Large Language Models: A Survey Yunfan Gaoa, Yun Xiongb, Xinyu Gaob, Kangxiang Jiab, Jinliu Panb, Yuxi Bic, Yi Daia, Jiawei Suna, Meng Wangc, and Haofen Wang a,c aShanghai Research Institute for Intelligent Autonomous Systems, Tongji University bShanghai Key Labo"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p2_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 2,
+    "chunk_index": 0,
+    "text_preview": "2 Fig. 1. Technology tree of RAG research. The stages of involving RAG mainly include pre-training, fine-tuning, and inference. With the emergence of LLMs, research on RAG initially focused on leveraging the powerful in context learning abilities of LLMs, primarily concentrating on the inference sta"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p3_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 3,
+    "chunk_index": 0,
+    "text_preview": "3 Fig. 2. A representative instance of the RAG process applied to question answering. It mainly consists of 3 steps. 1) Indexing. Documents are split into chunks, encoded into vectors, and stored in a vector database. 2) Retrieval. Retrieve the Top k chunks most relevant to the question based on sem"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p4_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 4,
+    "chunk_index": 0,
+    "text_preview": "4 Fig. 3. Comparison between the three paradigms of RAG. (Left) Naive RAG mainly consists of three parts: indexing, retrieval and generation. (Middle) Advanced RAG proposes multiple optimization strategies around pre-retrieval and post-retrieval, with a process similar to the Naive RAG, still follow"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p8_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 8,
+    "chunk_index": 0,
+    "text_preview": "8 the appropriate retrieval granularity during inference can be a simple and effective strategy to improve the retrieval and downstream task performance of dense retrievers. In text, retrieval granularity ranges from fine to coarse, including Token, Phrase, Sentence, Proposition, Chunks, Document. A"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p11_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 11,
+    "chunk_index": 0,
+    "text_preview": "11 Fig. 5. In addition to the most common once retrieval, RAG also includes three types of retrieval augmentation processes. (left) Iterative retrieval involves alternating between retrieval and generation, allowing for richer and more targeted context from the knowledge base at each step. (Middle) "
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p15_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 15,
+    "chunk_index": 0,
+    "text_preview": "15 TABLE IV SUMMARY OF EVALUATION FRAMEWORKS Evaluation Framework Evaluation Targets Evaluation Aspects Quantitative Metrics RGB\u2020 Retrieval Quality Generation Quality Noise Robustness Negative Rejection Information Integration Counterfactual Robustness Accuracy EM Accuracy Accuracy RECALL\u2020 Generatio"
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p16_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 16,
+    "chunk_index": 0,
+    "text_preview": "16 Fig. 6. Summary of RAG ecosystem initial learning curve. 3) Specialization - optimizing RAG to better serve production environments. The mutual growth of RAG models and their technology stacks is evident; technological advancements continuously establish new standards for existing infrastructure."
+  },
+  {
+    "chunk_id": "rag_survey.pdf_p21_c0",
+    "source": "rag_survey.pdf",
+    "source_type": "pdf",
+    "page": 21,
+    "chunk_index": 0,
+    "text_preview": "21 [181] A. Yang, A. Nagrani, P. H. Seo, A. Miech, J. Pont-Tuset, I. Laptev, J. Sivic, and C. Schmid, \u201cVid2seq: Large-scale pretraining of a visual language model for dense video captioning,\u201d in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023, pp. 10 714\u201310 72"
+  }
+]

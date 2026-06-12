@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-06-12T18:15:34.699440+00:00",
+  "loaded_documents_or_pages": 72,
+  "indexed_chunks": 46,
+  "chunks_by_source_type": {
+    "markdown": 6,
+    "pdf": 40
+  },
+  "chunks_by_source": {
+    "embedding_drift.md": 2,
+    "llmops_monitoring.md": 2,
+    "retrieval_quality.md": 2,
+    "ragas_evaluation.pdf": 21,
+    "rag_evaluation_survey.pdf": 10,
+    "rag_survey.pdf": 9
+  },
+  "embedding_model": "all-MiniLM-L6-v2",
+  "chunk_size": 700,
+  "vector_db_path": "data/vector_db",
+  "collection_name": "knowledge_base"
+}
