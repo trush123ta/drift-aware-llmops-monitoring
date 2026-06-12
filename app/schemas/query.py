@@ -18,9 +18,21 @@ class RetrievedContext(BaseModel):
     distance: float
 
 
+class SourceCitation(BaseModel):
+    source_id: str
+    source: str | None = None
+    source_type: str | None = None
+    page: int | None = None
+    chunk_id: str | None = None
+    distance: float
+
+
 class QueryResponse(BaseModel):
     query: str
     answer: str
+    sources: List[SourceCitation]
     retrieved_contexts: List[RetrievedContext]
-    latency_ms: float
+    retrieval_latency_ms: float
+    generation_latency_ms: float
+    total_latency_ms: float
     note: str

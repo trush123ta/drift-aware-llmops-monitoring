@@ -8,19 +8,17 @@ from app.core.config import settings
 class GenerationService:
     def _format_contexts(self, retrieved_contexts: List[Dict[str, Any]]) -> str:
         formatted_contexts = []
-
         total_chars = 0
 
         for index, context in enumerate(retrieved_contexts, start=1):
+            source_id = f"S{index}"
             source = context.get("source", "unknown")
             page = context.get("page")
-            chunk_id = context.get("chunk_id", "unknown")
             text = context.get("text", "")
 
-            citation = f"[Source {index}: {source}"
+            citation = f"[{source_id}] {source}"
             if page is not None:
                 citation += f", page {page}"
-            citation += f", chunk {chunk_id}]"
 
             block = f"{citation}\n{text}"
 
@@ -38,12 +36,18 @@ class GenerationService:
         return f"""
 You are a grounded RAG assistant.
 
-Answer the user question using only the provided context.
-If the context is insufficient, say that the available context is not enough.
+Use only the retrieved context below to answer the question.
+Do not use outside knowledge.
+Do not add information that is not directly supported by the context.
+Prefer the highest-ranked source when it fully answers the question.
 Keep the answer concise and technical.
-Include source citations using the format [Source 1], [Source 2], etc.
+Use citation IDs exactly like [S1], [S2], etc.
+Do not cite a source unless the sentence is directly supported by that source.
+Do not mention "provided context", "available context", or add meta-notes.
+If the retrieved context is insufficient, say: "The retrieved context is not sufficient to answer this question."
 
-User question:
+
+Question:
 {query}
 
 Retrieved context:
@@ -70,8 +74,9 @@ Answer:
                     "prompt": prompt,
                     "stream": False,
                     "options": {
-                        "temperature": 0.2,
+                        "temperature": 0.1,
                         "top_p": 0.9,
+                        "num_predict": 160,
                     },
                 },
                 timeout=120,
@@ -80,10 +85,13 @@ Answer:
 
             return response.json()["response"].strip()
 
-        except requests.RequestException as error:
+        except requests.RequestException:
+            best_context = retrieved_contexts[0]["text"]
+            fallback = best_context[:700].strip()
+
             return (
-                "Local LLM generation failed. "
-                f"Reason: {str(error)}"
+                "Local LLM generation failed, so a fallback extractive answer was returned: "
+                f"{fallback}"
             )
 
 
