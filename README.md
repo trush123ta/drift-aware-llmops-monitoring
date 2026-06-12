@@ -38,7 +38,7 @@ Knowledge Documents
 → Re-indexing / Retraining Trigger
 ```
 
-![Architecture Diagram](drift-aware-llmops-monitoring.png)
+[Architecture Diagram](drift-aware-llmops-monitoring.png)
 
 ---
 
@@ -108,24 +108,6 @@ drift-aware-llmops-monitoring/
 
 ---
 
-## Current Implementation
-
-The current implementation includes the core RAG and monitoring foundation:
-
-* FastAPI `/query` endpoint
-* Semantic retrieval with SentenceTransformers
-* ChromaDB vector indexing
-* Markdown document ingestion
-* Paragraph-aware chunking
-* Source and chunk metadata tracking
-* Retrieval distance reporting
-* Latency measurement
-* JSONL request logging
-* Basic monitoring summary script
-* Basic grounded answer generation
-
----
-
 ## Setup Instructions
 
 ### 1. Clone the Repository
@@ -141,13 +123,6 @@ On Windows PowerShell:
 
 ```powershell
 python -m venv venv
-.\venv\Scripts\Activate.ps1
-```
-
-If activation is blocked:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\venv\Scripts\Activate.ps1
 ```
 
@@ -281,27 +256,6 @@ It shows experience with:
 * Drift detection
 * Evaluation pipelines
 * Production-oriented AI workflows
-
----
-
-## Roadmap
-
-* Add MLflow-based evaluation tracking
-* Add retrieval quality benchmark dataset
-* Add hallucination and refusal tracking
-* Add embedding drift simulation
-* Add Prometheus metrics exporter
-* Add Grafana dashboard
-* Add automated re-indexing trigger
-* Add Docker Compose deployment
-* Add GitHub Actions CI/CD
-* Add before/after drift simulation report
-
----
-
-## Portfolio Highlight
-
-> Developed a drift-aware LLMOps monitoring pipeline for RAG applications, enabling semantic retrieval, metadata-aware responses, request logging, retrieval quality monitoring, latency tracking, embedding drift detection, and automated re-indexing workflows using FastAPI, SentenceTransformers, ChromaDB, MLflow, Prometheus, and Grafana.
 
 ---
 
