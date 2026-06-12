@@ -1,42 +1,54 @@
 # Drift-Aware LLMOps Monitoring Pipeline
 
-A portfolio project demonstrating how to monitor, evaluate, and maintain a Retrieval-Augmented Generation (RAG) system after deployment.
-
-This project focuses on **LLMOps**, **RAG monitoring**, **embedding drift detection**, **retrieval quality tracking**, and **automated re-indexing triggers**. The goal is to show how an AI system can be continuously observed and improved after it is deployed.
-
+**End-to-end architecture for a monitored Retrieval-Augmented Generation (RAG) system** — detecting retrieval degradation, embedding drift, hallucination spikes, and latency regressions, then triggering corrective actions automatically.
 ---
 
 ## Project Motivation
-
-Building a RAG application is only the first step. In real-world AI systems, performance can degrade over time due to:
-
-* Changes in user query patterns
-* Outdated documents
-* Embedding distribution drift
-* Retrieval degradation
-* Hallucination spikes
-* Increased refusal or fallback responses
-* Latency issues
-* Poor indexing quality
-
-This project demonstrates how to detect these issues and prepare automated responses such as evaluation runs, alerts, and re-indexing triggers.
-
+ 
+Building a RAG application is only the first step. In real-world AI systems, performance degrades
+silently over time — and most teams only discover this after users complain.
+ 
+This project tackles the *post-deployment* problem: **how do you know your RAG system is still working well next week, next month, or after your document corpus changes?**
+ 
+Common causes of silent RAG degradation:
+ 
+| Problem | Signal |
+|---|---|
+| User query patterns shift | Retrieval distance scores increase over time |
+| Documents become outdated | Hit rate drops, answer faithfulness falls |
+| Embedding distribution drifts | Centroid shift, KL divergence spikes |
+| Index quality degrades | MRR and top-k accuracy decline |
+| Answer quality regresses | Hallucination rate or refusal rate increases |
+| System under load | P95 latency exceeds acceptable threshold |
+ 
+This project detects all of the above and triggers automated responses — evaluation runs,
+alerts, and re-indexing — without human intervention.
 ---
 
 ## Architecture
 
 ```text
 Knowledge Documents
-→ Document Preprocessing & Chunking
-→ Embedding Generation
+→ Document Preprocessing & Chunking      (Phase 2: PDF + Markdown with metadata)
+→ Embedding Generation                   (sentence-transformers/all-MiniLM-L6-v2)
 → ChromaDB Vector Index
-→ FastAPI RAG Endpoint
-→ Request Logging
-→ Evaluation & Drift Monitoring
-→ Prometheus Metrics
+→ FastAPI RAG Endpoint                   (Phase 1: clean service architecture)
+→ JSONL Request Logging
+→ Evaluation & Drift Monitoring          (Phase 4+5: retrieval metrics + drift detection)
+→ Prometheus Metrics Exporter
 → Grafana Dashboard
-→ Re-indexing / Retraining Trigger
+→ Automated Re-indexing Trigger          (closed-loop maintenance)
 ```
+
+The system is divided into **6 zones** (see diagram):
+ 
+1. **Knowledge Ingestion & Indexing** — offline batch pipeline, PDF/Markdown → ChromaDB
+2. **Online RAG Serving Layer** — FastAPI, query embedding, semantic retrieval, answer generation
+3. **Logging & Observability** — every request logged to JSONL with query, answer, distances, latency
+4. **Evaluation & Drift Monitoring** — retrieval quality metrics, embedding drift detection, MLflow tracking
+5. **Automation & Action Loop** — threshold alerts → re-index trigger → before/after evaluation report
+6. **Infrastructure & Delivery** — Docker Compose, GitHub Actions CI/CD
+
 
 [Architecture Diagram](drift-aware-llmops-monitoring.png)
 
@@ -44,21 +56,22 @@ Knowledge Documents
 
 ## Tech Stack
 
-| Area                | Tools                                           |
-| ------------------- | ----------------------------------------------- |
-| Backend API         | FastAPI, Uvicorn, Pydantic                      |
-| RAG Pipeline        | SentenceTransformers, ChromaDB                  |
-| Embedding Model     | `sentence-transformers/all-MiniLM-L6-v2`        |
-| Vector Database     | ChromaDB                                        |
-| Data Processing     | Python, Pandas, NumPy                           |
-| Logging             | JSONL request logs                              |
-| Evaluation          | Custom retrieval metrics, answer-quality checks |
-| Experiment Tracking | MLflow                                          |
-| Monitoring          | Prometheus                                      |
-| Dashboarding        | Grafana                                         |
-| Automation          | Threshold rules, re-indexing trigger            |
-| DevOps              | Docker, Docker Compose, GitHub Actions          |
-| Version Control     | Git, GitHub                                     |
+| Area | Tools | Version |
+|---|---|---|
+| Backend API | FastAPI, Uvicorn, Pydantic | `0.111.x` |
+| RAG Pipeline | SentenceTransformers, ChromaDB | `2.7.x` / `0.5.x` |
+| Embedding Model | `sentence-transformers/all-MiniLM-L6-v2` | — |
+| Vector Database | ChromaDB | `0.5.x` |
+| Answer Generation | Ollama + Llama 3 (local) | `0.1.x` |
+| Document Ingestion | PyMuPDF, Python-Markdown | `1.24.x` |
+| Data Processing | Python, Pandas, NumPy | `3.11` |
+| Logging | JSONL structured request logs | — |
+| Experiment Tracking | MLflow | `2.13.x` |
+| Monitoring | Prometheus | `2.51.x` |
+| Dashboarding | Grafana | `10.x` |
+| Infrastructure | Docker, Docker Compose | — |
+| CI/CD | GitHub Actions | — |
+
 
 ---
 
@@ -68,45 +81,60 @@ Knowledge Documents
 drift-aware-llmops-monitoring/
 │
 ├── app/
-│   ├── main.py
-│   ├── rag_pipeline.py
-│   ├── generator.py
-│   └── logger.py
+│   ├── main.py                    # FastAPI app factory, route registration
+│   ├── api/
+│   │   └── routes.py              # /query, /health, /metrics endpoints
+│   ├── services/
+│   │   ├── retrieval.py           # ChromaDB query logic, top-k search
+│   │   └── generator.py          # Ollama prompt assembly + answer synthesis
+│   ├── schemas/
+│   │   └── query.py               # Pydantic request/response models
+│   ├── core/
+│   │   └── config.py              # Centralized settings (env vars, thresholds)
+│   └── logger.py                  # JSONL structured request logger
 │
 ├── indexing/
-│   ├── ingest_docs.py
-│   └── reindex_trigger.py
+│   ├── ingest_docs.py             # PDF + Markdown → chunks → embeddings → ChromaDB
+│   └── reindex_trigger.py         # Watches metrics, fires re-index when threshold crossed
 │
 ├── monitoring/
-│   ├── analyze_logs.py
-│   ├── drift_detector.py
-│   ├── retrieval_monitor.py
-│   ├── hallucination_tracker.py
-│   └── prometheus_metrics.py
+│   ├── analyze_logs.py            # Parses JSONL logs, computes aggregate stats
+│   ├── drift_detector.py          # Centroid shift + KL divergence on query embeddings
+│   ├── retrieval_monitor.py       # Tracks hit rate / MRR degradation over time
+│   ├── hallucination_tracker.py   # Flags answers with low context overlap
+│   └── prometheus_metrics.py      # Exposes /metrics endpoint for Prometheus scraping
 │
 ├── evaluation/
-│   ├── eval_dataset.json
-│   ├── run_eval.py
-│   ├── mlflow_tracking.py
-│   └── before_after_report.py
+│   ├── eval_dataset.json          # Ground-truth QA pairs for retrieval evaluation
+│   ├── run_eval.py                # Computes hit rate, MRR, top-k accuracy, faithfulness
+│   ├── mlflow_tracking.py         # Logs all eval runs to MLflow for comparison
+│   └── before_after_report.py     # Generates diff report pre/post re-index
+│
+├── notebooks/
+│   └── drift_analysis_demo.ipynb  # Visual walkthrough: baseline → drift → detection firing
 │
 ├── dashboards/
-│   ├── prometheus.yml
-│   └── grafana_dashboard.json
+│   ├── prometheus.yml             # Scrape config
+│   └── grafana_dashboard.json     # Pre-built dashboard (import directly into Grafana)
 │
 ├── data/
-│   ├── raw_docs/
-│   └── vector_db/
+│   ├── raw_docs/                  # Source documents (PDF, Markdown)
+│   └── vector_db/                 # ChromaDB persistent storage
 │
 ├── tests/
+│   ├── test_retrieval.py
+│   ├── test_drift_detector.py
+│   └── test_eval_pipeline.py
 │
-├── docker-compose.yml
+├── docker-compose.yml             # Spins up: API + ChromaDB + Ollama + Prometheus + Grafana + MLflow
 ├── Dockerfile
 ├── requirements.txt
+├── .github/
+│   └── workflows/
+│       └── ci.yml                 # Lint + test on every push
 └── README.md
 ```
 
----
 
 ## Setup Instructions
 
@@ -132,8 +160,14 @@ python -m venv venv
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
-
-### 4. Build the Vector Index
+**4. Install and start Ollama (local answer generation)**
+ 
+```bash
+# Install Ollama: https://ollama.com
+ollama pull llama3
+ollama serve
+```
+### 5. Build the Vector Index
 
 ```bash
 python indexing/ingest_docs.py
@@ -145,7 +179,7 @@ This creates a local ChromaDB vector database inside:
 data/vector_db/
 ```
 
-### 5. Run the FastAPI Server
+### 6. Run the FastAPI Server
 
 ```bash
 uvicorn app.main:app --reload
@@ -220,7 +254,33 @@ Start Prometheus and Grafana:
 ```bash
 docker-compose up
 ```
-
+### Retrieval Quality — Baseline vs. After Re-index
+ 
+| Metric | Baseline | After Re-index | Change |
+|---|---|---|---|
+| Hit Rate @3 | — | — | — |
+| Hit Rate @5 | — | — | — |
+| MRR (Mean Reciprocal Rank) | — | — | — |
+| Top-3 Accuracy | — | — | — |
+| Avg Retrieval Distance | — | — | — |
+ 
+### Answer Quality
+ 
+| Metric | Score | Notes |
+|---|---|---|
+| Context Faithfulness | — | LLM-judge score 0–1 |
+| Answer Correctness | — | vs. ground-truth eval set |
+| Hallucination Rate | — | % answers with unsupported claims |
+| Refusal Rate | — | % queries with no confident answer |
+ 
+### System Performance
+ 
+| Metric | Value |
+|---|---|
+| Avg Query Latency | — ms |
+| P95 Query Latency | — ms |
+| Index Size (chunks) | — |
+| Embedding Model | all-MiniLM-L6-v2 |
 ---
 
 ## Metrics Tracked
@@ -242,20 +302,17 @@ docker-compose up
 
 ## Portfolio Value
 
-This project demonstrates practical AI engineering skills beyond basic model usage.
-
-It shows experience with:
-
-* RAG system design
-* Semantic search
-* Vector databases
-* Embedding models
-* LLMOps monitoring
-* Retrieval quality tracking
-* Logging and observability
-* Drift detection
-* Evaluation pipelines
-* Production-oriented AI workflows
+This project demonstrates practical AI engineering beyond building a chatbot.
+ 
+It shows hands-on experience with the *production lifecycle* of an AI system:
+ 
+- **RAG system design** — chunking, embedding, semantic retrieval, grounded generation
+- **LLMOps** — what happens after deployment, not just during development
+- **Observability** — structured logging, Prometheus metrics, Grafana dashboards
+- **Evaluation** — quantitative retrieval and answer quality measurement with MLflow tracking
+- **Drift detection** — statistical methods for detecting when an embedding-based system degrades
+- **Automation** — closed-loop re-indexing triggered by metric thresholds
+- **Production mindset** — Docker Compose, CI/CD, modular service architecture
 
 ---
 

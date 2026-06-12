@@ -1,43 +1,18 @@
-import time
-
 from fastapi import FastAPI
-from pydantic import BaseModel
 
-from app.rag_pipeline import retrieve_documents
-from app.generator import generate_answer
-from app.logger import log_rag_request
+from app.api.routes import router
+from app.core.config import settings
 
 
-app = FastAPI(title="Drift-Aware LLMOps Monitoring Pipeline")
+app = FastAPI(title=settings.APP_NAME)
 
-
-class QueryRequest(BaseModel):
-    query: str
-    top_k: int = 3
+app.include_router(router)
 
 
 @app.get("/")
-def health_check():
-    return {"status": "ok", "message": "LLMOps monitoring pipeline is running"}
-
-
-@app.post("/query")
-def query_rag(request: QueryRequest):
-    start_time = time.time()
-
-    retrieved_contexts = retrieve_documents(request.query, request.top_k)
-    answer = generate_answer(request.query, retrieved_contexts)
-
-    latency_ms = round((time.time() - start_time) * 1000, 2)
-
-    response = {
-        "query": request.query,
-        "answer": answer,
-        "retrieved_contexts": retrieved_contexts,
-        "latency_ms": latency_ms,
-        "note": "Lower distance means higher semantic similarity.",
+def root():
+    return {
+        "message": "Drift-Aware LLMOps Monitoring Pipeline",
+        "docs": "/docs",
+        "health": "/health",
     }
-
-    log_rag_request(response.copy())
-
-    return response
