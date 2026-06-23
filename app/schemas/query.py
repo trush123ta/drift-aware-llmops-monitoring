@@ -16,6 +16,8 @@ class RetrievedContext(BaseModel):
     chunk_id: str | None = None
     chunk_index: int | None = None
     distance: float
+    rerank_score: float | None = None
+    keyword_overlap: int | None = None
 
 
 class SourceCitation(BaseModel):

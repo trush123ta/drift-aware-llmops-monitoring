@@ -1,0 +1,55 @@
+[
+  {
+    "question": "How is retrieval augmented generation evaluated?",
+    "expected_source": "rag_evaluation_survey.pdf",
+    "expected_page": 5,
+    "expected_keywords": [
+      "relevance",
+      "accuracy",
+      "faithfulness",
+      "correctness"
+    ]
+  },
+  {
+    "question": "What does faithfulness measure in RAG evaluation?",
+    "expected_source": "rag_evaluation_survey.pdf",
+    "expected_page": 5,
+    "expected_keywords": [
+      "response",
+      "relevant documents",
+      "consistency",
+      "source documents"
+    ]
+  },
+  {
+    "question": "What is the role of prompting in RAG generation?",
+    "expected_source": "rag_evaluation_survey.pdf",
+    "expected_page": 21,
+    "expected_keywords": [
+      "query",
+      "retrieval outcomes",
+      "instructions",
+      "language model"
+    ]
+  },
+  {
+    "question": "What is recursive retrieval in RAG?",
+    "expected_source": "rag_survey.pdf",
+    "expected_page": 11,
+    "expected_keywords": [
+      "refining search queries",
+      "previous searches",
+      "feedback loop"
+    ]
+  },
+  {
+    "question": "What is adaptive retrieval in RAG?",
+    "expected_source": "rag_survey.pdf",
+    "expected_page": 11,
+    "expected_keywords": [
+      "determine",
+      "external knowledge retrieval",
+      "when to stop"
+    ]
+  }
+]

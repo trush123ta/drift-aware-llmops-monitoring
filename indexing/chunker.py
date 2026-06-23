@@ -4,27 +4,38 @@ from app.core.config import settings
 from indexing.text_cleaner import clean_text, is_noisy_chunk
 
 
-def chunk_text(text: str, chunk_size: int = settings.CHUNK_SIZE) -> List[str]:
-    paragraphs = [
-        paragraph.strip()
-        for paragraph in text.split("\n\n")
-        if paragraph.strip()
-    ]
+def chunk_text(
+    text: str,
+    chunk_size: int = settings.CHUNK_SIZE,
+    chunk_overlap: int = settings.CHUNK_OVERLAP,
+) -> List[str]:
+    """
+    Splits text into smaller overlapping chunks.
+
+    Smaller overlapping chunks improve retrieval precision for specific concepts
+    such as faithfulness, recursive retrieval, and adaptive retrieval.
+    """
+    cleaned_text = clean_text(text)
+
+    if len(cleaned_text) <= chunk_size:
+        return [cleaned_text]
 
     chunks = []
-    current_chunk = ""
+    start = 0
 
-    for paragraph in paragraphs:
-        if len(current_chunk) + len(paragraph) <= chunk_size:
-            current_chunk += "\n\n" + paragraph if current_chunk else paragraph
-        else:
-            if current_chunk:
-                chunks.append(current_chunk)
+    while start < len(cleaned_text):
+        end = start + chunk_size
+        chunk = cleaned_text[start:end]
 
-            current_chunk = paragraph
+        # Try not to cut in the middle of a sentence
+        last_period = chunk.rfind(".")
+        if last_period > chunk_size * 0.5:
+            chunk = chunk[: last_period + 1]
+            end = start + last_period + 1
 
-    if current_chunk:
-        chunks.append(current_chunk)
+        chunks.append(chunk.strip())
+
+        start = max(end - chunk_overlap, start + 1)
 
     return chunks
 
@@ -42,10 +53,11 @@ def chunk_documents(documents: List[Dict]) -> List[Dict]:
             if is_noisy_chunk(cleaned_chunk):
                 continue
 
-            # prevent duplicate chunks from repeated headers/footers/pages
             normalized_text = cleaned_chunk.lower().strip()
+
             if normalized_text in seen_texts:
                 continue
+
             seen_texts.add(normalized_text)
 
             chunk_id = (

@@ -1,0 +1,229 @@
+{
+  "timestamp": "2026-06-23T17:32:26.492314+00:00",
+  "top_k": 5,
+  "total_questions": 5,
+  "hit_rate_at_k": 0.2,
+  "mrr_at_k": 0.2,
+  "results": [
+    {
+      "question": "How is retrieval augmented generation evaluated?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 5,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 5,
+          "chunk_id": "rag_evaluation_survey.pdf_p5_c0",
+          "distance": 0.6046572923660278
+        },
+        {
+          "rank": 2,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 21,
+          "chunk_id": "rag_evaluation_survey.pdf_p21_c0",
+          "distance": 0.7212339639663696
+        },
+        {
+          "rank": 3,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_evaluation_survey.pdf_p1_c0",
+          "distance": 0.738389790058136
+        },
+        {
+          "rank": 4,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 9,
+          "chunk_id": "rag_evaluation_survey.pdf_p9_c0",
+          "distance": 0.8132525682449341
+        },
+        {
+          "rank": 5,
+          "source": "rag_survey.pdf",
+          "page": 11,
+          "chunk_id": "rag_survey.pdf_p11_c0",
+          "distance": 0.8202348947525024
+        }
+      ]
+    },
+    {
+      "question": "What does faithfulness measure in RAG evaluation?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 5,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "ragas_evaluation.pdf",
+          "page": 1,
+          "chunk_id": "ragas_evaluation.pdf_p1_c0",
+          "distance": 1.0483647584915161
+        },
+        {
+          "rank": 2,
+          "source": "ragas_evaluation.pdf",
+          "page": 20,
+          "chunk_id": "ragas_evaluation.pdf_p20_c0",
+          "distance": 1.1092281341552734
+        },
+        {
+          "rank": 3,
+          "source": "ragas_evaluation.pdf",
+          "page": 18,
+          "chunk_id": "ragas_evaluation.pdf_p18_c0",
+          "distance": 1.1306602954864502
+        },
+        {
+          "rank": 4,
+          "source": "ragas_evaluation.pdf",
+          "page": 17,
+          "chunk_id": "ragas_evaluation.pdf_p17_c0",
+          "distance": 1.1413630247116089
+        },
+        {
+          "rank": 5,
+          "source": "retrieval_quality.md",
+          "page": -1,
+          "chunk_id": "retrieval_quality.md_pna_c0",
+          "distance": 1.1500458717346191
+        }
+      ]
+    },
+    {
+      "question": "What is the role of prompting in RAG generation?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 21,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_survey.pdf_p2_c0",
+          "distance": 0.8977460861206055
+        },
+        {
+          "rank": 2,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_evaluation_survey.pdf_p2_c0",
+          "distance": 1.1096473932266235
+        },
+        {
+          "rank": 3,
+          "source": "ragas_evaluation.pdf",
+          "page": 20,
+          "chunk_id": "ragas_evaluation.pdf_p20_c0",
+          "distance": 1.1227035522460938
+        },
+        {
+          "rank": 4,
+          "source": "ragas_evaluation.pdf",
+          "page": 1,
+          "chunk_id": "ragas_evaluation.pdf_p1_c0",
+          "distance": 1.1538316011428833
+        },
+        {
+          "rank": 5,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 4,
+          "chunk_id": "rag_evaluation_survey.pdf_p4_c0",
+          "distance": 1.1561918258666992
+        }
+      ]
+    },
+    {
+      "question": "What is recursive retrieval in RAG?",
+      "expected_source": "rag_survey.pdf",
+      "expected_page": 11,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_survey.pdf_p2_c0",
+          "distance": 0.8653891682624817
+        },
+        {
+          "rank": 2,
+          "source": "retrieval_quality.md",
+          "page": -1,
+          "chunk_id": "retrieval_quality.md_pna_c0",
+          "distance": 0.9188820123672485
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 4,
+          "chunk_id": "rag_survey.pdf_p4_c0",
+          "distance": 1.0106457471847534
+        },
+        {
+          "rank": 4,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_evaluation_survey.pdf_p2_c0",
+          "distance": 1.029201626777649
+        },
+        {
+          "rank": 5,
+          "source": "ragas_evaluation.pdf",
+          "page": 1,
+          "chunk_id": "ragas_evaluation.pdf_p1_c0",
+          "distance": 1.0540971755981445
+        }
+      ]
+    },
+    {
+      "question": "What is adaptive retrieval in RAG?",
+      "expected_source": "rag_survey.pdf",
+      "expected_page": 11,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_survey.pdf_p2_c0",
+          "distance": 0.7906792163848877
+        },
+        {
+          "rank": 2,
+          "source": "retrieval_quality.md",
+          "page": -1,
+          "chunk_id": "retrieval_quality.md_pna_c0",
+          "distance": 0.8241468071937561
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 4,
+          "chunk_id": "rag_survey.pdf_p4_c0",
+          "distance": 0.8455280065536499
+        },
+        {
+          "rank": 4,
+          "source": "ragas_evaluation.pdf",
+          "page": 20,
+          "chunk_id": "ragas_evaluation.pdf_p20_c0",
+          "distance": 0.9231626391410828
+        },
+        {
+          "rank": 5,
+          "source": "ragas_evaluation.pdf",
+          "page": 1,
+          "chunk_id": "ragas_evaluation.pdf_p1_c0",
+          "distance": 0.9255443215370178
+        }
+      ]
+    }
+  ]
+}
