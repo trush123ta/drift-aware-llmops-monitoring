@@ -185,7 +185,7 @@ def save_csv_summary(report: Dict[str, Any], json_report_path: Path) -> Path:
 
 
 if __name__ == "__main__":
-    evaluation_report = evaluate_answers(top_k=5, generation_top_n=1)
+    evaluation_report = evaluate_answers(top_k=5, generation_top_n=3)
     json_path = save_json_report(evaluation_report)
     csv_path = save_csv_summary(evaluation_report, json_path)
 

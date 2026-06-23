@@ -1,0 +1,8 @@
+question,answer_keyword_match_score,citation_present,top_1_source,top_1_page,top_1_chunk_id,answer
+How is retrieval augmented generation evaluated?,0.75,True,rag_evaluation_survey.pdf,14,rag_evaluation_survey.pdf_p14_c9,"According to [S1], page 14, the evaluation of retrieval augmented generation is not explicitly stated. However, according to [S2], Table 1 portrays four standards based on [17] that comprise Consistency, Correctness, Clarity, and Coverage. 
+
+Correctness is equivalent to accuracy in retrieval, and Consistency is tantamount to faithfulness in the generation component."
+What does faithfulness measure in RAG evaluation?,0.0,False,ragas_evaluation.pdf,8,ragas_evaluation.pdf_p8_c3,Faithfulness measures the accuracy of the generated text in relation to the original context.
+What is the role of prompting in RAG generation?,0.0,True,rag_evaluation_survey.pdf,2,rag_evaluation_survey.pdf_p2_c5,"According to [S3], page 2, prompting plays a role in RAG generation as part of the ""Augmentation"" component."
+What is recursive retrieval in RAG?,0.1111111111111111,False,rag_survey.pdf,11,rag_survey.pdf_p11_c0,"Recursive retrieval in RAG involves gradually refining the user query and breaking down the problem into sub-problems, then continuously solving complex problems through retrieval and generation."
+What is adaptive retrieval in RAG?,1.0,True,rag_survey.pdf,11,rag_survey.pdf_p11_c1,"Adaptive retrieval in RAG refers to the ability of the system to autonomously determine when external knowledge retrieval is necessary and when to stop retrieval and generation, often utilizing LLM-generated special tokens for control [S1]."

@@ -1,0 +1,10 @@
+question,answer_keyword_match_score,citation_present,top_1_source,top_1_page,top_1_chunk_id,answer
+How is retrieval augmented generation evaluated?,0.5,True,rag_evaluation_survey.pdf,14,rag_evaluation_survey.pdf_p14_c9,"According to [S1], page 14, the evaluation of retrieval augmented generation is not explicitly stated. However, [S2] states that each evaluation criterion is represented by a different color in Table 1, and one of these criteria is Correctness, which is equivalent to accuracy in retrieval.
+
+Additionally, [S2] mentions that FeB4RAG has posited four standards based on [17], which comprise Consistency, Correctness, Clarity, and Coverage. However, it does not explicitly state how the other criteria are evaluated.
+
+Therefore, the retrieved context is not sufficient to provide a comprehensive answer to the question of how retrieval augmented generation is evaluated."
+What does faithfulness measure in RAG evaluation?,0.0,False,ragas_evaluation.pdf,8,ragas_evaluation.pdf_p8_c3,Faithfulness measures the accuracy of the generated text in relation to the original context.
+What is the role of prompting in RAG generation?,0.0,True,rag_evaluation_survey.pdf,2,rag_evaluation_survey.pdf_p2_c5,"According to [S1], prompting is one of the four key components of RAG generation, along with indexing, search, and inferencing."
+What is recursive retrieval in RAG?,0.1111111111111111,False,rag_survey.pdf,11,rag_survey.pdf_p11_c0,"Recursive retrieval in RAG involves gradually refining the user query and breaking down the problem into sub-problems, then continuously solving complex problems through retrieval and generation."
+What is adaptive retrieval in RAG?,1.0,True,rag_survey.pdf,11,rag_survey.pdf_p11_c1,Adaptive retrieval in RAG refers to the ability of the system to autonomously determine when external knowledge retrieval is necessary and when to stop retrieval and generation [S1].

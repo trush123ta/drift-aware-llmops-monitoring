@@ -1,0 +1,318 @@
+{
+  "timestamp": "2026-06-23T18:05:21.559807+00:00",
+  "top_k": 5,
+  "generation_top_n": 3,
+  "total_questions": 5,
+  "avg_answer_keyword_match_score": 0.37222222222222223,
+  "citation_rate": 0.6,
+  "results": [
+    {
+      "question": "How is retrieval augmented generation evaluated?",
+      "answer": "According to [S1], page 14, the evaluation of retrieval augmented generation is not explicitly stated. However, according to [S2], Table 1 portrays four standards based on [17] that comprise Consistency, Correctness, Clarity, and Coverage. \n\nCorrectness is equivalent to accuracy in retrieval, and Consistency is tantamount to faithfulness in the generation component.",
+      "expected_keywords": [
+        "relevance",
+        "accuracy",
+        "faithfulness",
+        "correctness"
+      ],
+      "answer_keyword_match_score": 0.75,
+      "citation_present": true,
+      "top_source": {
+        "source_id": "S1",
+        "source": "rag_evaluation_survey.pdf",
+        "source_type": "pdf",
+        "page": 14,
+        "chunk_id": "rag_evaluation_survey.pdf_p14_c9",
+        "distance": 0.26301759481430054
+      },
+      "sources": [
+        {
+          "source_id": "S1",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 14,
+          "chunk_id": "rag_evaluation_survey.pdf_p14_c9",
+          "distance": 0.26301759481430054
+        },
+        {
+          "source_id": "S2",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 7,
+          "chunk_id": "rag_evaluation_survey.pdf_p7_c0",
+          "distance": 0.3659011423587799
+        },
+        {
+          "source_id": "S3",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 17,
+          "chunk_id": "rag_evaluation_survey.pdf_p17_c0",
+          "distance": 0.3845202326774597
+        },
+        {
+          "source_id": "S4",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 20,
+          "chunk_id": "rag_survey.pdf_p20_c16",
+          "distance": 0.45247572660446167
+        },
+        {
+          "source_id": "S5",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 18,
+          "chunk_id": "rag_evaluation_survey.pdf_p18_c5",
+          "distance": 0.5139977931976318
+        }
+      ]
+    },
+    {
+      "question": "What does faithfulness measure in RAG evaluation?",
+      "answer": "Faithfulness measures the accuracy of the generated text in relation to the original context.",
+      "expected_keywords": [
+        "response",
+        "relevant documents",
+        "consistency",
+        "source documents"
+      ],
+      "answer_keyword_match_score": 0.0,
+      "citation_present": false,
+      "top_source": {
+        "source_id": "S1",
+        "source": "ragas_evaluation.pdf",
+        "source_type": "pdf",
+        "page": 8,
+        "chunk_id": "ragas_evaluation.pdf_p8_c3",
+        "distance": 0.7938768863677979
+      },
+      "sources": [
+        {
+          "source_id": "S1",
+          "source": "ragas_evaluation.pdf",
+          "source_type": "pdf",
+          "page": 8,
+          "chunk_id": "ragas_evaluation.pdf_p8_c3",
+          "distance": 0.7938768863677979
+        },
+        {
+          "source_id": "S2",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 12,
+          "chunk_id": "rag_survey.pdf_p12_c11",
+          "distance": 0.8264460563659668
+        },
+        {
+          "source_id": "S3",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 14,
+          "chunk_id": "rag_survey.pdf_p14_c1",
+          "distance": 0.7500566244125366
+        },
+        {
+          "source_id": "S4",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 4,
+          "chunk_id": "rag_evaluation_survey.pdf_p4_c6",
+          "distance": 0.7574852108955383
+        },
+        {
+          "source_id": "S5",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 13,
+          "chunk_id": "rag_evaluation_survey.pdf_p13_c3",
+          "distance": 0.764072597026825
+        }
+      ]
+    },
+    {
+      "question": "What is the role of prompting in RAG generation?",
+      "answer": "According to [S3], page 2, prompting plays a role in RAG generation as part of the \"Augmentation\" component.",
+      "expected_keywords": [
+        "query",
+        "retrieval outcomes",
+        "instructions",
+        "language model"
+      ],
+      "answer_keyword_match_score": 0.0,
+      "citation_present": true,
+      "top_source": {
+        "source_id": "S1",
+        "source": "rag_evaluation_survey.pdf",
+        "source_type": "pdf",
+        "page": 2,
+        "chunk_id": "rag_evaluation_survey.pdf_p2_c5",
+        "distance": 0.8604857325553894
+      },
+      "sources": [
+        {
+          "source_id": "S1",
+          "source": "rag_evaluation_survey.pdf",
+          "source_type": "pdf",
+          "page": 2,
+          "chunk_id": "rag_evaluation_survey.pdf_p2_c5",
+          "distance": 0.8604857325553894
+        },
+        {
+          "source_id": "S2",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c11",
+          "distance": 0.7372909188270569
+        },
+        {
+          "source_id": "S3",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 2,
+          "chunk_id": "rag_survey.pdf_p2_c2",
+          "distance": 0.785352349281311
+        },
+        {
+          "source_id": "S4",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.7936548590660095
+        },
+        {
+          "source_id": "S5",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 14,
+          "chunk_id": "rag_survey.pdf_p14_c8",
+          "distance": 0.8207934498786926
+        }
+      ]
+    },
+    {
+      "question": "What is recursive retrieval in RAG?",
+      "answer": "Recursive retrieval in RAG involves gradually refining the user query and breaking down the problem into sub-problems, then continuously solving complex problems through retrieval and generation.",
+      "expected_keywords": [
+        "refining search queries",
+        "previous searches",
+        "feedback loop"
+      ],
+      "answer_keyword_match_score": 0.1111111111111111,
+      "citation_present": false,
+      "top_source": {
+        "source_id": "S1",
+        "source": "rag_survey.pdf",
+        "source_type": "pdf",
+        "page": 11,
+        "chunk_id": "rag_survey.pdf_p11_c0",
+        "distance": 0.46409761905670166
+      },
+      "sources": [
+        {
+          "source_id": "S1",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 11,
+          "chunk_id": "rag_survey.pdf_p11_c0",
+          "distance": 0.46409761905670166
+        },
+        {
+          "source_id": "S2",
+          "source": "ragas_evaluation.pdf",
+          "source_type": "pdf",
+          "page": 22,
+          "chunk_id": "ragas_evaluation.pdf_p22_c4",
+          "distance": 0.6929455995559692
+        },
+        {
+          "source_id": "S3",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 5,
+          "chunk_id": "rag_survey.pdf_p5_c9",
+          "distance": 0.7183178663253784
+        },
+        {
+          "source_id": "S4",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c14",
+          "distance": 0.7191352844238281
+        },
+        {
+          "source_id": "S5",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.7433714866638184
+        }
+      ]
+    },
+    {
+      "question": "What is adaptive retrieval in RAG?",
+      "answer": "Adaptive retrieval in RAG refers to the ability of the system to autonomously determine when external knowledge retrieval is necessary and when to stop retrieval and generation, often utilizing LLM-generated special tokens for control [S1].",
+      "expected_keywords": [
+        "determine",
+        "external knowledge retrieval",
+        "when to stop"
+      ],
+      "answer_keyword_match_score": 1.0,
+      "citation_present": true,
+      "top_source": {
+        "source_id": "S1",
+        "source": "rag_survey.pdf",
+        "source_type": "pdf",
+        "page": 11,
+        "chunk_id": "rag_survey.pdf_p11_c1",
+        "distance": 0.6491110324859619
+      },
+      "sources": [
+        {
+          "source_id": "S1",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 11,
+          "chunk_id": "rag_survey.pdf_p11_c1",
+          "distance": 0.6491110324859619
+        },
+        {
+          "source_id": "S2",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 5,
+          "chunk_id": "rag_survey.pdf_p5_c9",
+          "distance": 0.5065268278121948
+        },
+        {
+          "source_id": "S3",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.5910983681678772
+        },
+        {
+          "source_id": "S4",
+          "source": "rag_survey.pdf",
+          "source_type": "pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c14",
+          "distance": 0.599606990814209
+        },
+        {
+          "source_id": "S5",
+          "source": "ragas_evaluation.pdf",
+          "source_type": "pdf",
+          "page": 22,
+          "chunk_id": "ragas_evaluation.pdf_p22_c4",
+          "distance": 0.6370893120765686
+        }
+      ]
+    }
+  ]
+}
