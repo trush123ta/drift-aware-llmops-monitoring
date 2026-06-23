@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-23T18:12:33.088704+00:00",
+  "baseline_source_report": "evaluation\\reports\\retrieval_eval_20260623_175444.json",
+  "current_source_report": "evaluation\\reports\\retrieval_eval_20260623_175444.json",
+  "thresholds": {
+    "hit_rate_drop": 0.2,
+    "mrr_drop": 0.2,
+    "keyword_match_drop": 0.2
+  },
+  "baseline_metrics": {
+    "hit_rate_at_k": 0.4,
+    "mrr_at_k": 0.4,
+    "avg_keyword_match_score": 0.46944444444444444
+  },
+  "current_metrics": {
+    "hit_rate_at_k": 0.4,
+    "mrr_at_k": 0.4,
+    "avg_keyword_match_score": 0.46944444444444444
+  },
+  "metric_drops": {
+    "hit_rate_drop": 0.0,
+    "mrr_drop": 0.0,
+    "keyword_match_drop": 0.0
+  },
+  "drift_signals": {
+    "hit_rate_drift": false,
+    "mrr_drift": false,
+    "keyword_match_drift": false
+  },
+  "drift_detected": false,
+  "recommendation": "No significant retrieval drift detected."
+}

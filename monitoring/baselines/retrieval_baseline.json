@@ -1,0 +1,9 @@
+{
+  "source_report": "evaluation\\reports\\retrieval_eval_20260623_175444.json",
+  "timestamp": "2026-06-23T17:54:44.483206+00:00",
+  "top_k": 5,
+  "total_questions": 5,
+  "hit_rate_at_k": 0.4,
+  "mrr_at_k": 0.4,
+  "avg_keyword_match_score": 0.46944444444444444
+}

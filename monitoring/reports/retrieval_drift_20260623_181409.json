@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-23T18:14:09.058546+00:00",
+  "baseline_source_report": "evaluation\\reports\\retrieval_eval_20260623_175444.json",
+  "current_source_report": "evaluation\\reports\\retrieval_eval_simulated_drift.json",
+  "thresholds": {
+    "hit_rate_drop": 0.2,
+    "mrr_drop": 0.2,
+    "keyword_match_drop": 0.2
+  },
+  "baseline_metrics": {
+    "hit_rate_at_k": 0.4,
+    "mrr_at_k": 0.4,
+    "avg_keyword_match_score": 0.46944444444444444
+  },
+  "current_metrics": {
+    "hit_rate_at_k": 0.10000000000000003,
+    "mrr_at_k": 0.10000000000000003,
+    "avg_keyword_match_score": 0.16944444444444445
+  },
+  "metric_drops": {
+    "hit_rate_drop": 0.3,
+    "mrr_drop": 0.3,
+    "keyword_match_drop": 0.3
+  },
+  "drift_signals": {
+    "hit_rate_drift": true,
+    "mrr_drift": true,
+    "keyword_match_drift": true
+  },
+  "drift_detected": true,
+  "recommendation": "Retrieval quality degradation detected. Review recent document changes, embedding/index updates, chunking configuration, and reranking settings. Consider rebuilding the index or updating retrieval strategy."
+}
