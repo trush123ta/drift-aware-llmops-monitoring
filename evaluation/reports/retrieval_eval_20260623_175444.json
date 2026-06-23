@@ -1,0 +1,313 @@
+{
+  "timestamp": "2026-06-23T17:54:44.483206+00:00",
+  "top_k": 5,
+  "total_questions": 5,
+  "hit_rate_at_k": 0.4,
+  "mrr_at_k": 0.4,
+  "avg_keyword_match_score": 0.46944444444444444,
+  "results": [
+    {
+      "question": "How is retrieval augmented generation evaluated?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 5,
+      "expected_keywords": [
+        "relevance",
+        "accuracy",
+        "faithfulness",
+        "correctness"
+      ],
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "keyword_match_score": 0.75,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 14,
+          "chunk_id": "rag_evaluation_survey.pdf_p14_c9",
+          "distance": 0.26301759481430054,
+          "rerank_score": 0.5542282252235131,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 2,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 7,
+          "chunk_id": "rag_evaluation_survey.pdf_p7_c0",
+          "distance": 0.3659011423587799,
+          "rerank_score": 0.5124821835869962,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 3,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 17,
+          "chunk_id": "rag_evaluation_survey.pdf_p17_c0",
+          "distance": 0.3845202326774597,
+          "rerank_score": 0.5055903001477287,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 4,
+          "source": "rag_survey.pdf",
+          "page": 20,
+          "chunk_id": "rag_survey.pdf_p20_c16",
+          "distance": 0.45247572660446167,
+          "rerank_score": 0.4819357646935906,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 5,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 18,
+          "chunk_id": "rag_evaluation_survey.pdf_p18_c5",
+          "distance": 0.5139977931976318,
+          "rerank_score": 0.462352060977294,
+          "keyword_overlap": 0
+        }
+      ]
+    },
+    {
+      "question": "What does faithfulness measure in RAG evaluation?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 5,
+      "expected_keywords": [
+        "response",
+        "relevant documents",
+        "consistency",
+        "source documents"
+      ],
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "keyword_match_score": 0.25,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "ragas_evaluation.pdf",
+          "page": 8,
+          "chunk_id": "ragas_evaluation.pdf_p8_c3",
+          "distance": 0.7938768863677979,
+          "rerank_score": 0.6902162993009763,
+          "keyword_overlap": 1
+        },
+        {
+          "rank": 2,
+          "source": "rag_survey.pdf",
+          "page": 12,
+          "chunk_id": "rag_survey.pdf_p12_c11",
+          "distance": 0.8264460563659668,
+          "rerank_score": 0.6832579656870743,
+          "keyword_overlap": 1
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 14,
+          "chunk_id": "rag_survey.pdf_p14_c1",
+          "distance": 0.7500566244125366,
+          "rerank_score": 0.39998705769590615,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 4,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 4,
+          "chunk_id": "rag_evaluation_survey.pdf_p4_c6",
+          "distance": 0.7574852108955383,
+          "rerank_score": 0.39829638147754903,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 5,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 13,
+          "chunk_id": "rag_evaluation_survey.pdf_p13_c3",
+          "distance": 0.764072597026825,
+          "rerank_score": 0.39680906623671997,
+          "keyword_overlap": 0
+        }
+      ]
+    },
+    {
+      "question": "What is the role of prompting in RAG generation?",
+      "expected_source": "rag_evaluation_survey.pdf",
+      "expected_page": 21,
+      "expected_keywords": [
+        "query",
+        "retrieval outcomes",
+        "instructions",
+        "language model"
+      ],
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "keyword_match_score": 0.125,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_evaluation_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_evaluation_survey.pdf_p2_c5",
+          "distance": 0.8604857325553894,
+          "rerank_score": 0.6762458307264444,
+          "keyword_overlap": 1
+        },
+        {
+          "rank": 2,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c11",
+          "distance": 0.7372909188270569,
+          "rerank_score": 0.4029261837577609,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 2,
+          "chunk_id": "rag_survey.pdf_p2_c2",
+          "distance": 0.785352349281311,
+          "rerank_score": 0.39207946839277025,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 4,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.7936548590660095,
+          "rerank_score": 0.3902646021679463,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 5,
+          "source": "rag_survey.pdf",
+          "page": 14,
+          "chunk_id": "rag_survey.pdf_p14_c8",
+          "distance": 0.8207934498786926,
+          "rerank_score": 0.38444778019529685,
+          "keyword_overlap": 0
+        }
+      ]
+    },
+    {
+      "question": "What is recursive retrieval in RAG?",
+      "expected_source": "rag_survey.pdf",
+      "expected_page": 11,
+      "expected_keywords": [
+        "refining search queries",
+        "previous searches",
+        "feedback loop"
+      ],
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "keyword_match_score": 0.2222222222222222,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_survey.pdf",
+          "page": 11,
+          "chunk_id": "rag_survey.pdf_p11_c0",
+          "distance": 0.46409761905670166,
+          "rerank_score": 0.7781101962661482,
+          "keyword_overlap": 1
+        },
+        {
+          "rank": 2,
+          "source": "ragas_evaluation.pdf",
+          "page": 22,
+          "chunk_id": "ragas_evaluation.pdf_p22_c4",
+          "distance": 0.6929455995559692,
+          "rerank_score": 0.41348050414827153,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 5,
+          "chunk_id": "rag_survey.pdf_p5_c9",
+          "distance": 0.7183178663253784,
+          "rerank_score": 0.4073751508485153,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 4,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c14",
+          "distance": 0.7191352844238281,
+          "rerank_score": 0.40718145124605853,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 5,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.7433714866638184,
+          "rerank_score": 0.40152084931682946,
+          "keyword_overlap": 0
+        }
+      ]
+    },
+    {
+      "question": "What is adaptive retrieval in RAG?",
+      "expected_source": "rag_survey.pdf",
+      "expected_page": 11,
+      "expected_keywords": [
+        "determine",
+        "external knowledge retrieval",
+        "when to stop"
+      ],
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "keyword_match_score": 1.0,
+      "top_retrieved": [
+        {
+          "rank": 1,
+          "source": "rag_survey.pdf",
+          "page": 11,
+          "chunk_id": "rag_survey.pdf_p11_c1",
+          "distance": 0.6491110324859619,
+          "rerank_score": 0.7244711157773173,
+          "keyword_overlap": 1
+        },
+        {
+          "rank": 2,
+          "source": "rag_survey.pdf",
+          "page": 5,
+          "chunk_id": "rag_survey.pdf_p5_c9",
+          "distance": 0.5065268278121948,
+          "rerank_score": 0.46464489518354773,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 3,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c12",
+          "distance": 0.5910983681678772,
+          "rerank_score": 0.439947657545547,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 4,
+          "source": "rag_survey.pdf",
+          "page": 1,
+          "chunk_id": "rag_survey.pdf_p1_c14",
+          "distance": 0.599606990814209,
+          "rerank_score": 0.4376074898520517,
+          "keyword_overlap": 0
+        },
+        {
+          "rank": 5,
+          "source": "ragas_evaluation.pdf",
+          "page": 22,
+          "chunk_id": "ragas_evaluation.pdf_p22_c4",
+          "distance": 0.6370893120765686,
+          "rerank_score": 0.42758815590340876,
+          "keyword_overlap": 0
+        }
+      ]
+    }
+  ]
+}

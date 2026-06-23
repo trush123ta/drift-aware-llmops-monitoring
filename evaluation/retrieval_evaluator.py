@@ -1,3 +1,4 @@
+import csv
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -152,6 +153,8 @@ def evaluate_retrieval(top_k: int = 5) -> Dict[str, Any]:
                         "page": context.get("page"),
                         "chunk_id": context.get("chunk_id"),
                         "distance": context.get("distance"),
+                        "rerank_score": context.get("rerank_score"),
+                        "keyword_overlap": context.get("keyword_overlap"),
                     }
                     for rank, context in enumerate(retrieved_contexts, start=1)
                 ],
@@ -194,9 +197,59 @@ def save_report(report: Dict[str, Any]) -> Path:
     return report_path
 
 
+def save_csv_summary(report: Dict[str, Any], json_report_path: Path) -> Path:
+    csv_path = json_report_path.with_suffix(".csv")
+
+    rows = []
+
+    for result in report["results"]:
+        top_retrieved = result["top_retrieved"]
+        top_1 = top_retrieved[0] if top_retrieved else {}
+
+        rows.append(
+            {
+                "question": result["question"],
+                "expected_source": result["expected_source"],
+                "expected_page": result["expected_page"],
+                "hit_at_k": result["hit_at_k"],
+                "reciprocal_rank": result["reciprocal_rank"],
+                "keyword_match_score": result["keyword_match_score"],
+                "top_1_source": top_1.get("source"),
+                "top_1_page": top_1.get("page"),
+                "top_1_chunk_id": top_1.get("chunk_id"),
+                "top_1_distance": top_1.get("distance"),
+                "top_1_rerank_score": top_1.get("rerank_score"),
+                "top_1_keyword_overlap": top_1.get("keyword_overlap"),
+            }
+        )
+
+    fieldnames = [
+        "question",
+        "expected_source",
+        "expected_page",
+        "hit_at_k",
+        "reciprocal_rank",
+        "keyword_match_score",
+        "top_1_source",
+        "top_1_page",
+        "top_1_chunk_id",
+        "top_1_distance",
+        "top_1_rerank_score",
+        "top_1_keyword_overlap",
+    ]
+
+    with open(csv_path, "w", encoding="utf-8", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    return csv_path
+
+
 if __name__ == "__main__":
     evaluation_report = evaluate_retrieval(top_k=5)
     saved_path = save_report(evaluation_report)
+    csv_path = save_csv_summary(evaluation_report, saved_path)
 
     print("Retrieval evaluation completed.")
     print(f"Top-k: {evaluation_report['top_k']}")
@@ -207,4 +260,5 @@ if __name__ == "__main__":
         "Avg Keyword Match: "
         f"{evaluation_report['avg_keyword_match_score']:.2f}"
     )
-    print(f"Saved report to: {saved_path}")
+    print(f"Saved JSON report to: {saved_path}")
+    print(f"Saved CSV summary to: {csv_path}")

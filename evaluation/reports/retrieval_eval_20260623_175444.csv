@@ -1,0 +1,6 @@
+question,expected_source,expected_page,hit_at_k,reciprocal_rank,keyword_match_score,top_1_source,top_1_page,top_1_chunk_id,top_1_distance,top_1_rerank_score,top_1_keyword_overlap
+How is retrieval augmented generation evaluated?,rag_evaluation_survey.pdf,5,False,0.0,0.75,rag_evaluation_survey.pdf,14,rag_evaluation_survey.pdf_p14_c9,0.26301759481430054,0.5542282252235131,0
+What does faithfulness measure in RAG evaluation?,rag_evaluation_survey.pdf,5,False,0.0,0.25,ragas_evaluation.pdf,8,ragas_evaluation.pdf_p8_c3,0.7938768863677979,0.6902162993009763,1
+What is the role of prompting in RAG generation?,rag_evaluation_survey.pdf,21,False,0.0,0.125,rag_evaluation_survey.pdf,2,rag_evaluation_survey.pdf_p2_c5,0.8604857325553894,0.6762458307264444,1
+What is recursive retrieval in RAG?,rag_survey.pdf,11,True,1.0,0.2222222222222222,rag_survey.pdf,11,rag_survey.pdf_p11_c0,0.46409761905670166,0.7781101962661482,1
+What is adaptive retrieval in RAG?,rag_survey.pdf,11,True,1.0,1.0,rag_survey.pdf,11,rag_survey.pdf_p11_c1,0.6491110324859619,0.7244711157773173,1
