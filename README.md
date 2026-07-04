@@ -676,40 +676,6 @@ In this project, Docker Compose is mainly a foundation for future production-sty
 
 ---
 
-## Interview Explanation
-
-A short way to explain the project:
-
-> I built a drift-aware LLMOps monitoring pipeline for RAG systems. It ingests PDFs and Markdown documents, chunks and indexes them in ChromaDB, retrieves context with reranking, generates grounded answers using a local Ollama model, logs each request, evaluates retrieval and answer quality, detects retrieval drift against a saved baseline, and visualizes system health in a Streamlit dashboard.
-
-For retrieval drift:
-
-> Retrieval drift is calculated as degradation from a saved baseline. I compare current Hit Rate@k, MRR@k, and keyword-match score against baseline values. If the drop exceeds a threshold, the system flags drift and recommends reviewing the index, chunking, embeddings, or reranking strategy.
-
-For Grafana:
-
-> The current implementation uses Streamlit for lightweight local monitoring. Grafana and Prometheus are planned production extensions for a more infrastructure-oriented deployment.
-
----
-
-## Why This Project Is Valuable
-
-This project demonstrates more than building a chatbot. It shows a production-minded RAG lifecycle:
-
-- Document ingestion and indexing
-- Vector search
-- Local LLM-based answer generation
-- Grounded response design with citations
-- Request logging
-- Quantitative retrieval evaluation
-- Quantitative answer evaluation
-- Drift detection against a baseline
-- Monitoring dashboard
-- Testing and containerization basics
-- Clear distinction between implemented features and planned production extensions
-
----
-
 ## Limitations
 
 Current limitations:
