@@ -1,77 +1,346 @@
 # Drift-Aware LLMOps Monitoring Pipeline
 
-**End-to-end architecture for a monitored Retrieval-Augmented Generation (RAG) system** — detecting retrieval degradation, embedding drift, hallucination spikes, and latency regressions, then triggering corrective actions automatically.
+**A practical LLMOps project for monitoring Retrieval-Augmented Generation (RAG) systems using retrieval evaluation, answer evaluation, drift detection, and a local monitoring dashboard.**
+
+This project focuses on a real post-deployment question:
+
+> How do we know if a RAG system is still retrieving relevant context and generating grounded answers after documents, queries, or retrieval behavior change?
+
+The current implementation builds a working local RAG monitoring pipeline with FastAPI, ChromaDB, SentenceTransformers, Ollama, JSONL logging, evaluation reports, retrieval drift detection, tests, Docker support, and a Streamlit dashboard.
+
 ---
 
 ## Project Motivation
- 
-Building a RAG application is only the first step. In real-world AI systems, performance degrades
-silently over time — and most teams only discover this after users complain.
- 
-This project tackles the *post-deployment* problem: **how do you know your RAG system is still working well next week, next month, or after your document corpus changes?**
- 
-Common causes of silent RAG degradation:
- 
-| Problem | Signal |
+
+Building a RAG application is only the first step. In real-world AI systems, retrieval and answer quality can silently degrade over time because of:
+
+| Problem | Possible Signal |
 |---|---|
-| User query patterns shift | Retrieval distance scores increase over time |
-| Documents become outdated | Hit rate drops, answer faithfulness falls |
-| Embedding distribution drifts | Centroid shift, KL divergence spikes |
-| Index quality degrades | MRR and top-k accuracy decline |
-| Answer quality regresses | Hallucination rate or refusal rate increases |
-| System under load | P95 latency exceeds acceptable threshold |
- 
-This project detects all of the above and triggers automated responses — evaluation runs,
-alerts, and re-indexing — without human intervention.
+| User query patterns change | Retrieval scores get worse |
+| Document corpus changes | Hit Rate@k or MRR drops |
+| Chunking/indexing quality changes | Relevant context appears lower in ranking |
+| Retrieval behavior regresses | Keyword match and source relevance decrease |
+| Answer grounding weakens | Citation rate or answer keyword match drops |
+| System latency increases | Request latency trends upward |
+
+This project monitors these signals and reports whether retrieval quality has drifted compared to a saved baseline.
+
 ---
 
-## Architecture
+## What This Project Does
+
+The pipeline performs the following steps:
 
 ```text
-Knowledge Documents
-→ Document Preprocessing & Chunking      (Phase 2: PDF + Markdown with metadata)
-→ Embedding Generation                   (sentence-transformers/all-MiniLM-L6-v2)
-→ ChromaDB Vector Index
-→ FastAPI RAG Endpoint                   (Phase 1: clean service architecture)
-→ JSONL Request Logging
-→ Evaluation & Drift Monitoring          (Phase 4+5: retrieval metrics + drift detection)
-→ Prometheus Metrics Exporter
-→ Grafana Dashboard
-→ Automated Re-indexing Trigger          (closed-loop maintenance)
+PDF / Markdown documents
+→ text cleaning
+→ chunking with metadata
+→ embedding generation
+→ ChromaDB vector indexing
+→ FastAPI RAG endpoint
+→ semantic retrieval with reranking
+→ context compression
+→ Ollama local answer generation
+→ citation-aware API response
+→ JSONL request logging
+→ retrieval evaluation
+→ answer evaluation
+→ retrieval drift detection
+→ Streamlit monitoring dashboard
 ```
 
-The system is divided into **6 zones** (see diagram):
- 
-1. **Knowledge Ingestion & Indexing** — offline batch pipeline, PDF/Markdown → ChromaDB
-2. **Online RAG Serving Layer** — FastAPI, query embedding, semantic retrieval, answer generation
-3. **Logging & Observability** — every request logged to JSONL with query, answer, distances, latency
-4. **Evaluation & Drift Monitoring** — retrieval quality metrics, embedding drift detection, MLflow tracking
-5. **Automation & Action Loop** — threshold alerts → re-index trigger → before/after evaluation report
-6. **Infrastructure & Delivery** — Docker Compose, GitHub Actions CI/CD
+---
 
+## Implemented Features
 
-[Architecture Diagram](drift-aware-llmops-monitoring.png)
+### 1. Knowledge Ingestion and Indexing
+
+The ingestion pipeline supports local knowledge documents.
+
+Implemented:
+
+- PDF loading using PyMuPDF
+- Markdown loading
+- Text cleaning
+- Noisy/reference chunk filtering
+- Overlapping chunk generation
+- Metadata extraction
+- SentenceTransformer embeddings
+- ChromaDB persistent vector store
+- Ingestion report generation
+- Indexed chunk preview generation
+
+Main modules:
+
+```text
+indexing/
+├── document_loader.py
+├── chunker.py
+├── embedder.py
+├── vector_store.py
+├── text_cleaner.py
+└── ingest_docs.py
+```
+
+---
+
+### 2. Online RAG Serving Layer
+
+The FastAPI backend exposes a RAG API.
+
+Implemented:
+
+- `/health` endpoint
+- `/query` endpoint
+- Query embedding
+- ChromaDB semantic retrieval
+- Lightweight reranking
+- Context compression
+- Ollama-based local answer generation
+- Source citation list
+- Retrieval, generation, and total latency tracking
+
+Main modules:
+
+```text
+app/
+├── main.py
+├── api/
+│   └── routes.py
+├── core/
+│   └── config.py
+├── schemas/
+│   └── query.py
+└── services/
+    ├── retrieval_service.py
+    ├── reranking_service.py
+    ├── generation_service.py
+    ├── context_service.py
+    ├── source_service.py
+    └── logging_service.py
+```
+
+---
+
+### 3. Logging and Observability
+
+Every API request is logged as structured JSONL.
+
+Logged fields include:
+
+- query
+- generated answer
+- retrieved contexts
+- source metadata
+- retrieval latency
+- generation latency
+- total latency
+- compressed context used for generation
+
+Logs are stored in:
+
+```text
+logs/rag_requests.jsonl
+```
+
+---
+
+### 4. Retrieval Evaluation
+
+The retrieval evaluator measures whether the retriever returns the expected source/page for evaluation questions.
+
+Implemented metrics:
+
+- Hit Rate@k
+- MRR@k
+- Average keyword match score
+
+Current measured retrieval results:
+
+| Metric | Score |
+|---|---:|
+| Hit Rate@5 | 0.40 |
+| MRR@5 | 0.40 |
+| Avg Keyword Match | 0.47 |
+
+Evaluation files:
+
+```text
+evaluation/
+├── datasets/
+│   └── rag_eval_questions.json
+├── retrieval_evaluator.py
+├── answer_evaluator.py
+└── view_latest_report.py
+```
+
+Reports are generated under:
+
+```text
+evaluation/reports/
+```
+
+Generated reports are ignored by Git by default.
+
+---
+
+### 5. Answer Evaluation
+
+The answer evaluator checks generated answer quality using lightweight measurable signals.
+
+Implemented metrics:
+
+- Answer keyword match score
+- Citation rate
+
+Current measured answer results:
+
+| Metric | Score |
+|---|---:|
+| Avg Answer Keyword Match | 0.37 |
+| Citation Rate | 0.60 |
+
+These scores are intentionally simple and transparent. They are useful for monitoring regressions over time, not for claiming perfect answer correctness.
+
+---
+
+### 6. Retrieval Drift Detection
+
+Retrieval drift is calculated by comparing current retrieval metrics against a saved baseline.
+
+Simple formula:
+
+```text
+Metric Drop = Baseline Metric - Current Metric
+```
+
+The detector monitors:
+
+- Hit Rate@k drop
+- MRR@k drop
+- Avg keyword match drop
+
+If one or more metric drops exceed the configured threshold, retrieval drift is flagged.
+
+Example:
+
+```text
+Baseline Hit Rate@k = 0.40
+Current Hit Rate@k  = 0.10
+Hit Rate Drop       = 0.30
+
+Drift detected = True
+```
+
+Drift detection modules:
+
+```text
+monitoring/
+├── create_retrieval_baseline.py
+├── retrieval_drift_detector.py
+└── simulate_retrieval_drift.py
+```
+
+Current behavior:
+
+```text
+Normal evaluation report:      Drift detected = False
+Simulated degraded report:     Drift detected = True
+```
+
+---
+
+### 7. Streamlit Monitoring Dashboard
+
+The current implemented dashboard is built with Streamlit.
+
+It shows:
+
+- Retrieval evaluation metrics
+- Answer evaluation metrics
+- Retrieval drift status
+- Drift recommendation
+- Recent RAG API latency logs
+- Latency trend chart
+
+Dashboard file:
+
+```text
+dashboards/app.py
+```
+
+Run with:
+
+```bash
+streamlit run dashboards/app.py
+```
+
+Note:
+
+> The current working dashboard is Streamlit. Grafana and Prometheus are planned production extensions, not part of the current working implementation.
+
+---
+
+### 8. Tests
+
+Basic tests are included for API health, drift metric calculation, and keyword matching.
+
+Test folder:
+
+```text
+tests/
+├── test_api.py
+├── test_drift_detector.py
+└── test_keyword_matching.py
+```
+
+Run tests:
+
+```bash
+pytest
+```
+
+Current result:
+
+```text
+3 passed
+```
 
 ---
 
 ## Tech Stack
 
-| Area | Tools | Version |
-|---|---|---|
-| Backend API | FastAPI, Uvicorn, Pydantic | `0.111.x` |
-| RAG Pipeline | SentenceTransformers, ChromaDB | `2.7.x` / `0.5.x` |
-| Embedding Model | `sentence-transformers/all-MiniLM-L6-v2` | — |
-| Vector Database | ChromaDB | `0.5.x` |
-| Answer Generation | Ollama + Llama 3 (local) | `0.1.x` |
-| Document Ingestion | PyMuPDF, Python-Markdown | `1.24.x` |
-| Data Processing | Python, Pandas, NumPy | `3.11` |
-| Logging | JSONL structured request logs | — |
-| Experiment Tracking | MLflow | `2.13.x` |
-| Monitoring | Prometheus | `2.51.x` |
-| Dashboarding | Grafana | `10.x` |
-| Infrastructure | Docker, Docker Compose | — |
-| CI/CD | GitHub Actions | — |
+| Area | Current Tools |
+|---|---|
+| Language | Python 3.11 |
+| Backend API | FastAPI, Uvicorn, Pydantic |
+| Vector Database | ChromaDB |
+| Embeddings | sentence-transformers / all-MiniLM-L6-v2 |
+| Local LLM | Ollama with llama3.2:3b |
+| Document Parsing | PyMuPDF |
+| Data Processing | Pandas, NumPy |
+| Logging | JSONL |
+| Evaluation Reports | JSON, CSV |
+| Drift Detection | Custom Python metric comparison |
+| Dashboard | Streamlit |
+| Testing | Pytest |
+| Containerization | Dockerfile, basic Docker Compose |
 
+---
+
+## Planned Production Extensions
+
+These are intentionally listed as future extensions, not current implemented features:
+
+| Extension | Purpose |
+|---|---|
+| Prometheus | Export runtime metrics for scraping |
+| Grafana | Production-style monitoring dashboard |
+| MLflow | Track evaluation experiments over time |
+| GitHub Actions | Run tests automatically on push |
+| Automated re-index trigger | Rebuild index automatically when drift is detected |
+| Advanced embedding drift detection | Centroid shift, distribution shift, KL divergence, PSI |
+| Stronger reranking | Cross-encoder reranker or LLM-based reranking |
 
 ---
 
@@ -81,105 +350,149 @@ The system is divided into **6 zones** (see diagram):
 drift-aware-llmops-monitoring/
 │
 ├── app/
-│   ├── main.py                    # FastAPI app factory, route registration
+│   ├── main.py
 │   ├── api/
-│   │   └── routes.py              # /query, /health, /metrics endpoints
-│   ├── services/
-│   │   ├── retrieval.py           # ChromaDB query logic, top-k search
-│   │   └── generator.py          # Ollama prompt assembly + answer synthesis
-│   ├── schemas/
-│   │   └── query.py               # Pydantic request/response models
+│   │   └── routes.py
 │   ├── core/
-│   │   └── config.py              # Centralized settings (env vars, thresholds)
-│   └── logger.py                  # JSONL structured request logger
+│   │   └── config.py
+│   ├── schemas/
+│   │   └── query.py
+│   └── services/
+│       ├── retrieval_service.py
+│       ├── reranking_service.py
+│       ├── generation_service.py
+│       ├── context_service.py
+│       ├── source_service.py
+│       └── logging_service.py
 │
 ├── indexing/
-│   ├── ingest_docs.py             # PDF + Markdown → chunks → embeddings → ChromaDB
-│   └── reindex_trigger.py         # Watches metrics, fires re-index when threshold crossed
-│
-├── monitoring/
-│   ├── analyze_logs.py            # Parses JSONL logs, computes aggregate stats
-│   ├── drift_detector.py          # Centroid shift + KL divergence on query embeddings
-│   ├── retrieval_monitor.py       # Tracks hit rate / MRR degradation over time
-│   ├── hallucination_tracker.py   # Flags answers with low context overlap
-│   └── prometheus_metrics.py      # Exposes /metrics endpoint for Prometheus scraping
+│   ├── document_loader.py
+│   ├── chunker.py
+│   ├── embedder.py
+│   ├── vector_store.py
+│   ├── text_cleaner.py
+│   └── ingest_docs.py
 │
 ├── evaluation/
-│   ├── eval_dataset.json          # Ground-truth QA pairs for retrieval evaluation
-│   ├── run_eval.py                # Computes hit rate, MRR, top-k accuracy, faithfulness
-│   ├── mlflow_tracking.py         # Logs all eval runs to MLflow for comparison
-│   └── before_after_report.py     # Generates diff report pre/post re-index
+│   ├── datasets/
+│   │   └── rag_eval_questions.json
+│   ├── retrieval_evaluator.py
+│   ├── answer_evaluator.py
+│   └── view_latest_report.py
 │
-├── notebooks/
-│   └── drift_analysis_demo.ipynb  # Visual walkthrough: baseline → drift → detection firing
+├── monitoring/
+│   ├── baselines/
+│   ├── create_retrieval_baseline.py
+│   ├── retrieval_drift_detector.py
+│   └── simulate_retrieval_drift.py
 │
 ├── dashboards/
-│   ├── prometheus.yml             # Scrape config
-│   └── grafana_dashboard.json     # Pre-built dashboard (import directly into Grafana)
-│
-├── data/
-│   ├── raw_docs/                  # Source documents (PDF, Markdown)
-│   └── vector_db/                 # ChromaDB persistent storage
+│   └── app.py
 │
 ├── tests/
-│   ├── test_retrieval.py
+│   ├── test_api.py
 │   ├── test_drift_detector.py
-│   └── test_eval_pipeline.py
+│   └── test_keyword_matching.py
 │
-├── docker-compose.yml             # Spins up: API + ChromaDB + Ollama + Prometheus + Grafana + MLflow
+├── data/
+│   ├── raw_docs/
+│   ├── raw_pdfs/
+│   ├── processed/
+│   └── vector_db/
+│
+├── logs/
+│   └── rag_requests.jsonl
+│
 ├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+├── .env.example
+├── .gitignore
 ├── requirements.txt
-├── .github/
-│   └── workflows/
-│       └── ci.yml                 # Lint + test on every push
 └── README.md
 ```
 
+---
 
 ## Setup Instructions
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/trush123ta/drift-aware-llmops-monitoring.git
 cd drift-aware-llmops-monitoring
 ```
 
-### 2. Create a Virtual Environment
+### 2. Create and activate virtual environment
 
-On Windows PowerShell:
+Windows PowerShell:
 
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-### 3. Install Dependencies
+Git Bash:
+
+```bash
+python -m venv venv
+source venv/Scripts/activate
+```
+
+### 3. Install dependencies
 
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
-**4. Install and start Ollama (local answer generation)**
- 
+
+### 4. Install and start Ollama
+
+Install Ollama from the official website, then pull the model:
+
 ```bash
-# Install Ollama: https://ollama.com
-ollama pull llama3
+ollama pull llama3.2:3b
+```
+
+Start Ollama:
+
+```bash
 ollama serve
 ```
-### 5. Build the Vector Index
 
-```bash
-python indexing/ingest_docs.py
+If Ollama is already running in the background, this command may not be needed.
+
+---
+
+## Running the Project
+
+### 1. Add source documents
+
+Place Markdown files in:
+
+```text
+data/raw_docs/
 ```
 
-This creates a local ChromaDB vector database inside:
+Place PDF files in:
+
+```text
+data/raw_pdfs/
+```
+
+### 2. Build the vector index
+
+```bash
+python -m indexing.ingest_docs
+```
+
+This creates or updates the local ChromaDB index in:
 
 ```text
 data/vector_db/
 ```
 
-### 6. Run the FastAPI Server
+### 3. Run the FastAPI server
 
 ```bash
 uvicorn app.main:app --reload
@@ -191,9 +504,15 @@ Open Swagger UI:
 http://127.0.0.1:8000/docs
 ```
 
----
+Health endpoint:
 
-## Query Endpoint
+```text
+http://127.0.0.1:8000/health
+```
+
+### 4. Query the RAG API
+
+Endpoint:
 
 ```http
 POST /query
@@ -203,116 +522,222 @@ Example request:
 
 ```json
 {
-  "query": "How do we detect embedding drift?",
+  "query": "How is retrieval augmented generation evaluated?",
   "top_k": 3
 }
 ```
 
-Example response:
+Example response shape:
 
 ```json
 {
-  "query": "How do we detect embedding drift?",
-  "answer": "Based on the retrieved knowledge base, common ways to detect embedding drift include centroid shift, cosine distance distribution changes, nearest-neighbor score degradation, KL divergence, Wasserstein distance, and population stability index.",
-  "retrieved_contexts": [
+  "query": "How is retrieval augmented generation evaluated?",
+  "answer": "The answer is generated using retrieved context and includes citations such as [S1].",
+  "sources": [
     {
-      "text": "Common ways to detect embedding drift include centroid shift, cosine distance distribution changes, nearest-neighbor score degradation, KL divergence, Wasserstein distance, and population stability index.",
-      "source": "embedding_drift.md",
-      "chunk_index": 1,
-      "distance": 0.3674
+      "source_id": "S1",
+      "source": "rag_evaluation_survey.pdf",
+      "source_type": "pdf",
+      "page": 5,
+      "chunk_id": "rag_evaluation_survey.pdf_p5_c0",
+      "distance": 0.73
     }
   ],
-  "latency_ms": 14.6,
-  "note": "Lower distance means higher semantic similarity."
+  "retrieved_contexts": [],
+  "retrieval_latency_ms": 92.1,
+  "generation_latency_ms": 19846.4,
+  "total_latency_ms": 19938.5,
+  "note": "Lower distance means higher semantic similarity. Answer generation uses compressed retrieved context."
 }
 ```
 
 ---
 
-## Monitoring & Evaluation
+## Evaluation and Drift Commands
 
-Run log analysis:
-
-```bash
-python monitoring/analyze_logs.py
-```
-
-Run evaluation:
+### Run retrieval evaluation
 
 ```bash
-python evaluation/run_eval.py
+python -m evaluation.retrieval_evaluator
 ```
 
-Start MLflow:
+### View latest retrieval report
 
 ```bash
-mlflow ui
+python -m evaluation.view_latest_report
 ```
 
-Start Prometheus and Grafana:
+### Run answer evaluation
 
 ```bash
-docker-compose up
+python -m evaluation.answer_evaluator
 ```
-### Retrieval Quality — Baseline vs. After Re-index
- 
-| Metric | Baseline | After Re-index | Change |
-|---|---|---|---|
-| Hit Rate @3 | — | — | — |
-| Hit Rate @5 | — | — | — |
-| MRR (Mean Reciprocal Rank) | — | — | — |
-| Top-3 Accuracy | — | — | — |
-| Avg Retrieval Distance | — | — | — |
- 
+
+### Create retrieval baseline
+
+```bash
+python -m monitoring.create_retrieval_baseline
+```
+
+### Run retrieval drift detection
+
+```bash
+python -m monitoring.retrieval_drift_detector
+```
+
+### Simulate degraded retrieval
+
+```bash
+python -m monitoring.simulate_retrieval_drift
+python -m monitoring.retrieval_drift_detector
+```
+
+---
+
+## Run the Dashboard
+
+```bash
+streamlit run dashboards/app.py
+```
+
+The dashboard reads from generated evaluation reports, drift reports, and JSONL logs.
+
+---
+
+## Run Tests
+
+```bash
+pytest
+```
+
+Expected current result:
+
+```text
+3 passed
+```
+
+---
+
+## Docker Usage
+
+The Dockerfile containerizes the FastAPI application.
+
+Build image:
+
+```bash
+docker build -t drift-aware-rag .
+```
+
+Run container:
+
+```bash
+docker run -p 8000:8000 drift-aware-rag
+```
+
+Important:
+
+> Ollama should be running separately on the host machine unless Docker Compose is extended to include an Ollama service.
+
+### Docker Compose
+
+The current `docker-compose.yml` can be used for a basic local container run, depending on your local configuration.
+
+```bash
+docker compose up
+```
+
+In this project, Docker Compose is mainly a foundation for future production-style extensions such as Prometheus, Grafana, MLflow, or a separate Ollama service.
+
+---
+
+## Current Results
+
+### Retrieval Quality
+
+| Metric | Current Score |
+|---|---:|
+| Hit Rate@5 | 0.40 |
+| MRR@5 | 0.40 |
+| Avg Keyword Match | 0.47 |
+
 ### Answer Quality
- 
-| Metric | Score | Notes |
-|---|---|---|
-| Context Faithfulness | — | LLM-judge score 0–1 |
-| Answer Correctness | — | vs. ground-truth eval set |
-| Hallucination Rate | — | % answers with unsupported claims |
-| Refusal Rate | — | % queries with no confident answer |
- 
-### System Performance
- 
-| Metric | Value |
+
+| Metric | Current Score |
+|---|---:|
+| Avg Answer Keyword Match | 0.37 |
+| Citation Rate | 0.60 |
+
+### Drift Detection
+
+| Scenario | Result |
 |---|---|
-| Avg Query Latency | — ms |
-| P95 Query Latency | — ms |
-| Index Size (chunks) | — |
-| Embedding Model | all-MiniLM-L6-v2 |
----
-
-## Metrics Tracked
-
-* Average latency
-* Average retrieval distance
-* Top-k retrieval accuracy
-* Hit rate
-* Mean reciprocal rank
-* Context precision and recall
-* Faithfulness score
-* Correctness score
-* Hallucination rate
-* Refusal rate
-* Query embedding drift
-* Retrieval degradation alerts
+| Current report similar to baseline | Drift detected = False |
+| Simulated degraded report | Drift detected = True |
 
 ---
 
-## Portfolio Value
+## Interview Explanation
 
-This project demonstrates practical AI engineering beyond building a chatbot.
- 
-It shows hands-on experience with the *production lifecycle* of an AI system:
- 
-- **RAG system design** — chunking, embedding, semantic retrieval, grounded generation
-- **LLMOps** — what happens after deployment, not just during development
-- **Observability** — structured logging, Prometheus metrics, Grafana dashboards
-- **Evaluation** — quantitative retrieval and answer quality measurement with MLflow tracking
-- **Drift detection** — statistical methods for detecting when an embedding-based system degrades
-- **Automation** — closed-loop re-indexing triggered by metric thresholds
-- **Production mindset** — Docker Compose, CI/CD, modular service architecture
+A short way to explain the project:
+
+> I built a drift-aware LLMOps monitoring pipeline for RAG systems. It ingests PDFs and Markdown documents, chunks and indexes them in ChromaDB, retrieves context with reranking, generates grounded answers using a local Ollama model, logs each request, evaluates retrieval and answer quality, detects retrieval drift against a saved baseline, and visualizes system health in a Streamlit dashboard.
+
+For retrieval drift:
+
+> Retrieval drift is calculated as degradation from a saved baseline. I compare current Hit Rate@k, MRR@k, and keyword-match score against baseline values. If the drop exceeds a threshold, the system flags drift and recommends reviewing the index, chunking, embeddings, or reranking strategy.
+
+For Grafana:
+
+> The current implementation uses Streamlit for lightweight local monitoring. Grafana and Prometheus are planned production extensions for a more infrastructure-oriented deployment.
+
+---
+
+## Why This Project Is Valuable
+
+This project demonstrates more than building a chatbot. It shows a production-minded RAG lifecycle:
+
+- Document ingestion and indexing
+- Vector search
+- Local LLM-based answer generation
+- Grounded response design with citations
+- Request logging
+- Quantitative retrieval evaluation
+- Quantitative answer evaluation
+- Drift detection against a baseline
+- Monitoring dashboard
+- Testing and containerization basics
+- Clear distinction between implemented features and planned production extensions
+
+---
+
+## Limitations
+
+Current limitations:
+
+- Evaluation dataset is small
+- Answer evaluation uses lightweight keyword and citation metrics
+- No full LLM-as-judge evaluation yet
+- No Prometheus/Grafana integration yet
+- No MLflow experiment tracking yet
+- No automatic re-indexing trigger yet
+- Ollama must run locally for answer generation
+- Local LLM latency depends on machine performance
+
+---
+
+## Future Work
+
+Planned next improvements:
+
+- Add Prometheus metrics endpoint
+- Add Grafana dashboard
+- Add MLflow experiment tracking
+- Add GitHub Actions CI workflow
+- Add automated re-index trigger
+- Expand evaluation dataset
+- Add stronger reranking
+- Add more robust answer faithfulness scoring
+- Add dashboard screenshots to README
 
 ---
 
