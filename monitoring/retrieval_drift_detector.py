@@ -28,11 +28,15 @@ def load_baseline() -> Dict[str, Any]:
 
 
 def get_latest_retrieval_report() -> Path:
-    reports = sorted(EVAL_REPORTS_DIR.glob("retrieval_eval_*.json"))
+    reports = sorted(
+        report
+        for report in EVAL_REPORTS_DIR.glob("retrieval_eval_*.json")
+        if "simulated" not in report.name
+    )
 
     if not reports:
         raise FileNotFoundError(
-            "No retrieval evaluation reports found. "
+            "No non-simulated retrieval evaluation reports found. "
             "Run python -m evaluation.retrieval_evaluator first."
         )
 

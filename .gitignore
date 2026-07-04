@@ -6,3 +6,6 @@ logs/
 data/vector_db/
 mlruns/
 .DS_Store
+evaluation/reports/*.json
+evaluation/reports/*.csv
+monitoring/reports/*.json
